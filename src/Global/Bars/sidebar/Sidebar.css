@@ -21,14 +21,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
+  height: 60px;
   padding-left: 10px;
   padding-right: 10px;
+  background-color: blue
+  ;
+}
+
+.logo-text{
+  padding-left: 10px;
 }
 
 .logo {
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 70%;
+  max-width: 70%;
 }
 .plain-link {
   text-decoration: none;

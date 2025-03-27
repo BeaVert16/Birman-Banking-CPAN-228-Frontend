@@ -1,10 +1,15 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
+import "./Sidebar.css";
+
+//----------Icon Imports----------//
+import Home from "../../../Icons/Home";
+import MoveMoney from "../../../Icons/MoveMoney";
 import DBI from "../../../Icons/DashBoard";
 import ComputerIcon from "../../../Icons/ComputerIcon";
-import "./Sidebar.css";
-import Gear from "../../../Icons/Gear";
+
 
 const Bar = ({ collapsed }) => {
   const [isDashboardActive, setIsDashboardActive] = useState(false);
@@ -17,23 +22,23 @@ const Bar = ({ collapsed }) => {
               <div className="logo-container">
                 <img
                   className="logo"
-                  src="/Images/Better-Bongo-Trans.png"
+                  src="Images/BirmanBankLogo/BirmanIcon.png"
                   alt="BongoCatto"
                 />
-                {!collapsed && <div className="test2">Monitor Cat</div>}
+                {!collapsed && <div className="logo-text"> Birman Banking</div>}
               </div>
             </Link>
             <MenuItem
               component={<Link to="/" className="link" />}
-              icon={<DBI />}
+              icon={<Home />}
             >
-              Dashboard
+              Home
             </MenuItem>
             <MenuItem
               component={<Link to="/systems" className="link" />}
-              icon={<ComputerIcon />}
+              icon={<MoveMoney />}
             >
-              Systems
+              Move Money
             </MenuItem>
             <MenuItem
               active={isDashboardActive}
