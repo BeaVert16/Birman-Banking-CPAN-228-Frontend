@@ -1,3 +1,4 @@
 To run this application use command:
-npm run dev
+1 - "npm i"
+2- "npm run dev"
 in project directory file
