@@ -3,12 +3,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #2c3e50;
-    color: white;
+    background-color: #2A3B57;
+    /* color: white; */
     height: 60px;
     transition: width 0.3s ease;
-  }
-  
+    border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+}  
   .sb-button {
     padding: 10px;
     cursor: pointer;
@@ -16,4 +16,8 @@
   
   .app-title {
     margin: 0; 
+  }
+
+  button:focus{
+    outline: none;
   }

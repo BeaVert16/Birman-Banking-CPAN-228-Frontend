@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: blue;
+  text: #8A9297;
+  background-color: #2A3B57; /* Dark Navy Blue (Primary) */
 }
 
 .css-1wvake5 {
@@ -24,22 +25,26 @@
   height: 60px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: blue
-  ;
+  background-color: #A0CED9; /* Light Teal (Accent) */
+  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
 }
 
-.logo-text{
+.logo-text {
   padding-left: 10px;
+  font-size: larger;
+  color: black;
 }
 
 .logo {
   max-height: 70%;
   max-width: 70%;
 }
+
 .plain-link {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  color: #8A9297; /* White text for contrast */
 }
 
 .admin-container {
@@ -49,4 +54,9 @@
   height: 80px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+li {
+  background-color: #2A3B57; /* Dark Navy Blue (Primary) */
+  color: #e7e7e7; /* White text for contrast */
 }

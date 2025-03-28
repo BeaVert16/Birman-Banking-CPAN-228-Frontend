@@ -7,6 +7,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<InterfaceOutput />}>
+          <Route index element={<HomePage />} />
           <Route path="home" element={<HomePage />} />
         </Route>
       </Routes>
