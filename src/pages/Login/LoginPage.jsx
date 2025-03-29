@@ -10,7 +10,7 @@ const LoginPage = () => {
   const { isAuthenticated, checkAuth } = useContext(IsLoggedInContext);
 
   const [formData, setFormData] = useState({
-    username: "",
+    cardNumber: "",
     password: "",
   });
 
@@ -29,34 +29,44 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const newErrors = {};
-    if (!formData.username) newErrors.username = "Username is required.";
-    if (!formData.password) newErrors.password = "Password is required.";
-
+    if (!formData.cardNumber) {
+      newErrors.cardNumber = "Card number is required.";
+    } else if (!/^\d{16}$/.test(formData.cardNumber)) {
+      newErrors.cardNumber = "Card number must be exactly 16 digits.";
+    }
+  
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    }
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
       const response = await fetch(`${ipadd}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          cardNumber: parseInt(formData.cardNumber, 10),
+          password: formData.password,
+        }),
         credentials: "include",
       });
       const result = await response.json();
-
+  
       if (response.ok) {
         console.log(result);
         await checkAuth();
         navigate("/");
       } else {
         console.error("Login failed:", result);
-        alert(result.error);
+        alert(result.error || "Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -64,28 +74,28 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="login-overlay">
       <div className="login-container">
-        <h1>Monitor Cat</h1>
+        <h1>Birman Bank</h1>
         <div className="image">
           <img className="logo" src="/Images/OGCatLong.png" alt="BongoCatto" />
         </div>
         <h3>Login</h3>
         <form onSubmit={handleSubmit} noValidate>
           <label>
-            Username:
+            Card Number:
             <input
-              name="username"
-              type="username"
-              placeholder="Enter your username"
-              value={formData.username}
+              name="cardNumber"
+              type="text"
+              placeholder="Enter your card number"
+              value={formData.cardNumber}
               onChange={handleChange}
               required
             />
-            {errors.username && (
-              <span className="error-box">{errors.username}</span>
+            {errors.cardNumber && (
+              <span className="error-box">{errors.cardNumber}</span>
             )}
           </label>
           <label>
@@ -94,6 +104,7 @@ const LoginPage = () => {
               name="password"
               type="password"
               placeholder="Enter your password"
+              value={formData.password}
               onChange={handleChange}
               required
             />
