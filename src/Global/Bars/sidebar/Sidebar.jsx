@@ -13,6 +13,7 @@ import ComputerIcon from "../../../Icons/ComputerIcon";
 
 const Bar = ({ collapsed }) => {
   const [isDashboardActive, setIsDashboardActive] = useState(false);
+
   return (
     <div className="sidebar-container">
       <div className="content">
@@ -39,18 +40,6 @@ const Bar = ({ collapsed }) => {
               icon={<MoveMoney />}
             >
               Move Money
-            </MenuItem>
-            <MenuItem
-              active={isDashboardActive}
-              disabled={!isDashboardActive}
-              component={<Link to="/dinogame" className="link" />}
-            >
-              DinoGame
-            </MenuItem>
-            <MenuItem
-              component={<Link to="/history" className="link" />}
-            >
-              Systems
             </MenuItem>
           </Menu>
         </Sidebar>
