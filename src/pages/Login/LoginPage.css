@@ -17,7 +17,6 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    height: 150px;
     margin-bottom: 20px;
 }
 
@@ -49,9 +48,9 @@
     font-family: 'Arial', sans-serif;
     font-size: 1.5rem;
     text-align: center;
-    border-top: 2px solid #007bff;
+    border-top: 2px solid #1a1a1a;
     padding-top: 10px;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #1a1a1a;
     padding-bottom: 10px;
 }
 
@@ -62,8 +61,8 @@
     color: #555;
 }
 
-.login-container input[type="username"],
-.login-container input[type="password"] {
+.login-container input[name="cardNumber"],
+.login-container input[name="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #007bff;
@@ -71,6 +70,7 @@
     background: #f9f9f9;
     font-size: 1rem;
     box-sizing: border-box;
+    color: #1a1a1a;
 }
 
 .login-container input[type="username"]:hover,
@@ -135,4 +135,15 @@
     z-index: 1003;
     backdrop-filter: blur(5px);
     border-radius: 12px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
