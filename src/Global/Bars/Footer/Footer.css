@@ -1,0 +1,12 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  color: black;
+  /* background-color: #2A3B57; */
+}
+
+.github-icon {
+  width: 40px;
+  height: auto;
+}

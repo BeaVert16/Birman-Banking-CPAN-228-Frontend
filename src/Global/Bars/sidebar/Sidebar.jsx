@@ -39,7 +39,7 @@ const Bar = ({ collapsed }) => {
               component={<Link to="/systems" className="link" />}
               icon={<MoveMoney />}
             >
-              Move Money
+              Transfer
             </MenuItem>
           </Menu>
         </Sidebar>
