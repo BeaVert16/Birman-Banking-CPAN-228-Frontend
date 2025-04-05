@@ -6,6 +6,19 @@
   background-color: #2A3B57; /* Dark Navy Blue (Primary) */
 }
 
+.bottom-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  align-self: flex-start;
+  background-color: #2A3B57;
+}
+
+.github-icon {
+  width: 40px;
+  height: auto;
+}
+
 .css-1wvake5 {
   border-right-width: 0 !important;
 }

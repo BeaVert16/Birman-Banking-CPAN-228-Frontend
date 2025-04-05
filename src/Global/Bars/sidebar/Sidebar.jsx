@@ -9,7 +9,7 @@ import Home from "../../../Icons/Home";
 import MoveMoney from "../../../Icons/MoveMoney";
 import DBI from "../../../Icons/DashBoard";
 import ComputerIcon from "../../../Icons/ComputerIcon";
-
+import GitHubIcon from "../../../Icons/GitHubIcon";
 
 const Bar = ({ collapsed }) => {
   const [isDashboardActive, setIsDashboardActive] = useState(false);
@@ -29,12 +29,14 @@ const Bar = ({ collapsed }) => {
                 {!collapsed && <div className="logo-text"> Birman Banking</div>}
               </div>
             </Link>
+            {/* Home. */}
             <MenuItem
               component={<Link to="/" className="link" />}
               icon={<Home />}
             >
               Home
             </MenuItem>
+            {/* Transfer. */}
             <MenuItem
               component={<Link to="/systems" className="link" />}
               icon={<MoveMoney />}
@@ -44,11 +46,11 @@ const Bar = ({ collapsed }) => {
           </Menu>
         </Sidebar>
       </div>
-
-      {/* <div className="bottom-content">
+  
+      <div className="bottom-content">
         <Sidebar collapsed={collapsed}>
           <Menu>
-            <MenuItem
+            {/* <MenuItem
               component={<Link to="/settings" className="link" />}
               icon={<Gear />}
             >
@@ -59,10 +61,17 @@ const Bar = ({ collapsed }) => {
               icon={<Gear />}
             >
               Settings
+            </MenuItem> */}
+            {/* GitHub. */}
+            <MenuItem
+              component={<Link to="https://github.com/BeaVert16/Birman-Banking-CPAN-228-Frontend" className="link" />}
+              icon={<GitHubIcon />}
+            >
+              GitHub
             </MenuItem>
           </Menu>
         </Sidebar>
-      </div> */}
+      </div>
     </div>
   );
 };
