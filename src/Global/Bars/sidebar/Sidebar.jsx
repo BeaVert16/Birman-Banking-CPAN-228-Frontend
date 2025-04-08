@@ -9,7 +9,7 @@ import Home from "../../../Icons/Home";
 import MoveMoney from "../../../Icons/MoveMoney";
 import DBI from "../../../Icons/DashBoard";
 import ComputerIcon from "../../../Icons/ComputerIcon";
-import GitHubIcon from "../../../Icons/GitHubIcon";
+import Gear from "../../../Icons/Gear";
 
 const Bar = ({ collapsed }) => {
   const [isDashboardActive, setIsDashboardActive] = useState(false);
@@ -62,13 +62,24 @@ const Bar = ({ collapsed }) => {
             >
               Settings
             </MenuItem> */}
-            {/* GitHub. */}
+
+            {/* Settings. */}
             <MenuItem
-              component={<Link to="https://github.com/BeaVert16/Birman-Banking-CPAN-228-Frontend" className="link" />}
-              icon={<GitHubIcon />}
+              component={<Link to="/settings" className="link" />}
+              icon={<Gear />}
             >
-              GitHub
+              Settings
             </MenuItem>
+            <a href="https://github.com/BeaVert16/Birman-Banking-CPAN-228-Frontend">
+              <div className="bottom-container">
+                  <img
+                    className="logo"
+                    src="Images/GitHubIcon.png"
+                    alt="GitHub."
+                  />
+                  {!collapsed && <div className="logo-text"></div>}
+              </div>
+            </a>
           </Menu>
         </Sidebar>
       </div>

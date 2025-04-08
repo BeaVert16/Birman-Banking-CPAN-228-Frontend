@@ -1,23 +1,34 @@
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #2A3B57;
-    /* color: white; */
-    height: 60px;
-    transition: width 0.3s ease;
-    border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
-}  
-  .sb-button {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .app-title {
-    margin: 0; 
-  }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-  button:focus{
-    outline: none;
-  }
+
+.topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #2A3B57;
+  height: 60px;
+  transition: width 0.3s ease;
+  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  position: relative;
+}
+
+.sb-button {
+   position: absolute;
+  left: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  flex-grow: 1;
+  letter-spacing: 2px;
+}
+
+button:focus{
+  outline: none;
+}

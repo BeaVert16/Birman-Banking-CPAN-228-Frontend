@@ -11,6 +11,9 @@ const Topbar = ({ setSidebarCollapsed }) => {
       >
         <Hamburger/>
       </button>
+      <div className="title">
+        BIRMAN BANKING
+      </div>
     </div>
   );
 };
