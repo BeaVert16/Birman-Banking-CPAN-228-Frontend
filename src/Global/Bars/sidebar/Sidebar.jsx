@@ -47,6 +47,7 @@ const Bar = ({ collapsed }) => {
 
             {/* Transfer. */}
             <SubMenu
+              label="Transfer"
               icon={<MoveMoney />}
             >
               <MenuItem
