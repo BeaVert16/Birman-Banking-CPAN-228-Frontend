@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const DBI = ({ width = 24, height = 24, color = "#000000" }) => {
+const DBI = ({ width = 24, height = 24, color = "#ffffff" }) => {
   return (
     <svg
       width={width}

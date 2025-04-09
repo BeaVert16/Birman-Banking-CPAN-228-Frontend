@@ -1,4 +1,4 @@
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -36,12 +36,42 @@ const Bar = ({ collapsed }) => {
             >
               Home
             </MenuItem>
-            {/* Transfer. */}
+
+            {/* Accounts. */}
             <MenuItem
-              component={<Link to="/systems" className="link" />}
+              component={<Link to="/inbox" className="link" />}
+              icon={<ComputerIcon />}
+            >
+              Accounts
+            </MenuItem>
+
+            {/* Transfer. */}
+            <SubMenu
               icon={<MoveMoney />}
             >
-              Transfer
+              <MenuItem
+                component={<Link to="/withdraw" className="link" />}
+              >
+                Withdraw
+              </MenuItem>
+              <MenuItem
+                component={<Link to="/deposit" className="link" />}
+              >
+                Deposit
+              </MenuItem>
+              <MenuItem
+                component={<Link to="/e-transfer" className="link" />}
+              >
+                e-Transfer
+                </MenuItem>
+            </SubMenu>
+            
+            {/* Inbox */}
+            <MenuItem
+              component={<Link to="/inbox" className="link" />}
+              icon={<DBI />}
+            >
+              Inbox
             </MenuItem>
           </Menu>
         </Sidebar>
@@ -50,19 +80,6 @@ const Bar = ({ collapsed }) => {
       <div className="bottom-content">
         <Sidebar collapsed={collapsed}>
           <Menu>
-            {/* <MenuItem
-              component={<Link to="/settings" className="link" />}
-              icon={<Gear />}
-            >
-              Admin Settings
-            </MenuItem>
-            <MenuItem
-              component={<Link to="/settings" className="link" />}
-              icon={<Gear />}
-            >
-              Settings
-            </MenuItem> */}
-
             {/* Settings. */}
             <MenuItem
               component={<Link to="/settings" className="link" />}
@@ -70,6 +87,7 @@ const Bar = ({ collapsed }) => {
             >
               Settings
             </MenuItem>
+            {/* GitHub container. */}
             <a href="https://github.com/BeaVert16/Birman-Banking-CPAN-228-Frontend">
               <div className="bottom-container">
                   <img
