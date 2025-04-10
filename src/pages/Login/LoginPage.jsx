@@ -90,7 +90,11 @@ const LoginPage = () => {
     <div className="login-overlay">
       <div className="login-container">
         <div className="image">
-          <img className="logo" src="Images/BirmanBankLogo/Birmantext with icon.png" alt="BirmanIconWithText"/>
+          <img
+            className="logo"
+            src="Images/BirmanBankLogo/Birmantext with icon.png"
+            alt="BirmanIconWithText"
+          />
         </div>
         <h3>Login</h3>
         <form onSubmit={handleSubmit} noValidate>
@@ -125,7 +129,7 @@ const LoginPage = () => {
               <span className="error-box">{errors.password}</span>
             )}
           </label>
-          <button type="submit" className="login" disabled={isLoading}>
+          <button type="submit" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
@@ -134,6 +138,12 @@ const LoginPage = () => {
             <LoadingCat />
           </div>
         )}
+        <div className="register-container">
+          <h4 className="register">Don't have an account?</h4>
+          <a href="/register" className="register">
+            <button>Register</button>
+          </a>
+        </div>
       </div>
     </div>
   );
