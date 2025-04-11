@@ -25,17 +25,6 @@
     border-right: none;
 }
 
-.topbar {
-    position: relative;
-    height: 40px;
-    background-color: #2A3B57;
-    /* color: white; */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1001;
-}
-
 .main-content {
     flex-grow: 1;
     padding: 20px;

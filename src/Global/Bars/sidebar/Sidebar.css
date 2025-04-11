@@ -36,8 +36,9 @@
   height: 60px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #A0CED9; /* Light Teal (Accent) */
-  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  background-color: #A0CED9;
+  border-bottom: 0.25rem solid #151f2e;
+  overflow: hidden;
 }
 
 .bottom-container {
@@ -48,13 +49,17 @@
   padding-left: 10px;
   padding-right: 10px;
   background-color: #1f2d43;
-  border-top: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  border-top: 0.25rem solid #151f2e;
 }
 
 .logo-text {
+  font-family: 'Montserrat', sans-serif;
   padding-left: 10px;
-  font-size: larger;
+  font-size: 22px;
   color: black;
+  white-space: nowrap;  
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .logo {

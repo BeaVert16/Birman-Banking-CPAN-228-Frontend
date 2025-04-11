@@ -1,19 +1,16 @@
-import "./TopBar.css"; 
-import Hamburger from "../Hamburger"
+import "./TopBar.css";
+import Hamburger from "../Hamburger";
 
 const Topbar = ({ setSidebarCollapsed }) => {
   return (
     <div className="topbar">
-      
       <button
         className="sb-button"
         onClick={() => setSidebarCollapsed((prev) => !prev)}
       >
-        <Hamburger/>
+        <Hamburger />
       </button>
-      <div className="title">
-        BIRMAN BANKING
-      </div>
+      <div className="title">BIRMAN BANKING</div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./LoginPage.css";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../ServerIpAdd";
+
+import "./LoginPage.css"
 import LoadingCat from "../../Global/LoadingCat/LoadingCat";
 
 const LoginPage = () => {
@@ -28,9 +29,7 @@ const LoginPage = () => {
     const { name, value } = e.target;
 
     if (name === "cardNumber") {
-      // Remove non-numeric characters
       const numericValue = value.replace(/\D/g, "");
-      // Limit to 16 digits
       if (numericValue.length <= 16) {
         setFormData({ ...formData, [name]: numericValue });
       }
@@ -129,7 +128,7 @@ const LoginPage = () => {
               <span className="error-box">{errors.password}</span>
             )}
           </label>
-          <button type="submit" disabled={isLoading}>
+          <button type="submit" className="login" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
@@ -138,9 +137,9 @@ const LoginPage = () => {
             <LoadingCat />
           </div>
         )}
-        <div className="register-container">
-          <h4 className="register">Don't have an account?</h4>
-          <a href="/register" className="register">
+        <div className="register-box">
+          <h4>Don't have an account?</h4>
+          <a href="/register" className="register-button">
             <button>Register</button>
           </a>
         </div>

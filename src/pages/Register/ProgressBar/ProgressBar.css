@@ -1,0 +1,20 @@
+.progressBar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a3b57;
+  height: 60px;
+  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  position: relative;
+}
+
+.progressBar img {
+  max-height: 70%;
+  max-width: 70%;
+  margin-right: 10px;
+}
+
+.progressBar .title{
+  flex-grow: 0 !important;
+}
