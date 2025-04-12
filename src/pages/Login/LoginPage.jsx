@@ -74,7 +74,7 @@ const LoginPage = () => {
       if (response.ok) {
         localStorage.setItem("token", result.token);
         await checkAuth();
-        navigate("/");
+        navigate("/account");
       } else {
         alert(result.error || "Login failed. Please try again.");
       }
