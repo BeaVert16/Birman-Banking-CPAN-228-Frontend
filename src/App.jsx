@@ -21,7 +21,6 @@ const App = () => {
           <Route path="about" element={<AboutPage />} />
 
           <Route path="/" element={<InterfaceOutput />}>
-            <Route index element={<HomePage />} />
             <Route path="account" element={<RouteProtector><AccountPage /></RouteProtector>} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
