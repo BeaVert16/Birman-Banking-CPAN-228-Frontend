@@ -7,7 +7,6 @@ import "./Sidebar.css";
 import Home from "../../../Icons/Home";
 import MoveMoney from "../../../Icons/MoveMoney";
 import DBI from "../../../Icons/DashBoard";
-import ComputerIcon from "../../../Icons/ComputerIcon";
 import Gear from "../../../Icons/Gear";
 
 const Bar = ({ collapsed }) => {
@@ -36,34 +35,26 @@ const Bar = ({ collapsed }) => {
               Home
             </MenuItem>
 
-            {/* Accounts. */}
-            <MenuItem
-              component={<Link to="/inbox" className="link" />}
-              icon={<ComputerIcon />}
-            >
-              Accounts
-            </MenuItem>
-
             {/* Transfer. */}
             <SubMenu
               label="Transfer"
               icon={<MoveMoney />}
             >
-              <MenuItem
+              <MenuItem className="menu-item"
                 component={<Link to="/withdraw" className="link" />}
               >
                 Withdraw
               </MenuItem>
-              <MenuItem
+              <MenuItem className="menu-item"
                 component={<Link to="/deposit" className="link" />}
               >
                 Deposit
               </MenuItem>
-              <MenuItem
+              <MenuItem className="menu-item"
                 component={<Link to="/e-transfer" className="link" />}
               >
                 e-Transfer
-                </MenuItem>
+                </MenuItem >
             </SubMenu>
             
             {/* Inbox */}

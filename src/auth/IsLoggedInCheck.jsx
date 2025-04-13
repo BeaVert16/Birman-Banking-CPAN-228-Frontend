@@ -20,17 +20,20 @@ const IsLoggedInCheck = ({ children }) => {
     }
 
     try {
-      const response = await fetch(`${serverIpAddress}/api/auth/session-check`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${serverIpAddress}/api/auth/session-check`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
         setIsAuthenticated(result.isAuthenticated);
-        setUser(result.user);
+        setUser({ ...result.user, token }); // Include the token in the user object
       } else {
         setIsAuthenticated(false);
         setUser(null);
