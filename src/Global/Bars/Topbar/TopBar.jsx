@@ -1,7 +1,12 @@
 import "./TopBar.css";
 import Hamburger from "../../../Icons/Hamburger/Hamburger";
 
-const Topbar = ({ setSidebarCollapsed }) => {
+const Topbar = ({ setSidebarCollapsed }) => {  
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="topbar">
       <button
@@ -11,6 +16,9 @@ const Topbar = ({ setSidebarCollapsed }) => {
         <Hamburger />
       </button>
       <div className="title">BIRMAN BANKING</div>
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };
