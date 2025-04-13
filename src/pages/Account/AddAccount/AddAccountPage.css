@@ -1,0 +1,59 @@
+.create-account-page {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .create-account-page h2 {
+    text-align: center;
+  }
+  
+  .create-account-page form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-account-page form div {
+    margin-bottom: 15px;
+  }
+  
+  .create-account-page label {
+    font-weight: bold;
+  }
+  
+  .create-account-page input,
+  .create-account-page select,
+  .create-account-page button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .create-account-page .success-message {
+    color: green;
+    text-align: center;
+  }
+  
+  .create-account-page .error-message {
+    color: red;
+    text-align: center;
+  }
+  
+  .create-account-page .back-button {
+    margin-top: 15px;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .create-account-page .back-button:hover {
+    background-color: #0056b3;
+  }
