@@ -30,7 +30,7 @@ const Bar = ({ collapsed }) => {
             </Link>
             {/* Home. */}
             <MenuItem
-              component={<Link to="/" className="link" />}
+              component={<Link to="/account" className="link" />}
               icon={<Home />}
             >
               Home

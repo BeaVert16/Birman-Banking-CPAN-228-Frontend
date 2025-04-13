@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 
 const AccountPage = () => {
-  const { isAuthenticated, logout } = useContext(IsLoggedInContext);
+  const { user, logout } = useContext(IsLoggedInContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,6 +15,8 @@ const AccountPage = () => {
 
   return (
     <div className="account-page">
+      <h1 className="Welcome">Welcome, {user?.firstName || "User"}</h1>
+
       <section className="account-list">
         <div className="card">
           <h2>Account 1</h2>
