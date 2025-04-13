@@ -17,7 +17,7 @@ const Bar = ({ collapsed }) => {
     <div className="sidebar-container">
       <div className="content">
         <Sidebar collapsed={collapsed}>
-          <Menu>
+          <Menu className="menu">
             <Link to="/" className="plain-link">
               <div className="logo-container">
                 <img
