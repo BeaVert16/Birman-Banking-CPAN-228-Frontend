@@ -1,5 +1,4 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./Sidebar.css";
@@ -12,7 +11,7 @@ import ComputerIcon from "../../../Icons/ComputerIcon";
 import Gear from "../../../Icons/Gear";
 
 const Bar = ({ collapsed }) => {
-  const [isDashboardActive, setIsDashboardActive] = useState(false);
+  // const [isDashboardActive, setIsDashboardActive] = useState(false);
 
   return (
     <div className="sidebar-container">

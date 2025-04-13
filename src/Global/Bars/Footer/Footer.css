@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-
 .footer {
   display: flex;
   flex-direction: row;
@@ -8,7 +6,11 @@
   align-items: center;
   justify-content: center;
   background-color: #2A3B57;
-  border-top: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  border-top: 0.25rem solid #151f2e;
   height: 60px;
   font-family: 'Roboto', sans-serif;
+   position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
 }

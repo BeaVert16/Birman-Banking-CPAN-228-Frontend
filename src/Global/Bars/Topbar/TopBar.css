@@ -17,10 +17,10 @@
   cursor: pointer;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 20px;
   background-color: #000000;
 }
 
-button:focus {
+.sb-button:focus {
   outline: none;
 }

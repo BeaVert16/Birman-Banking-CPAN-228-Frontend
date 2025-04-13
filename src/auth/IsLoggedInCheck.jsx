@@ -46,9 +46,9 @@ const IsLoggedInCheck = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token"); // Clear the token
-    setIsAuthenticated(false); // Reset authentication state
-    setUser(null); // Clear user data
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
   useEffect(() => {

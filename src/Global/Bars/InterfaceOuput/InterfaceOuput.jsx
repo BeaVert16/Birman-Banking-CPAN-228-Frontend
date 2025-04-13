@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Bar from "../sidebar/Sidebar";
 import TopBar from "../Topbar/TopBar";
-import Footer from "../Footer/Footer"; 
+import Footer from "../Footer/Footer";
 import "./InterfaceOutput.css";
 
 const InterfaceOutput = () => {
@@ -18,9 +18,7 @@ const InterfaceOutput = () => {
         <div className="main-content">
           <Outlet />
         </div>
-        <footer>
-          <Footer />
-        </footer>
+        <Footer />
       </div>
     </div>
   );

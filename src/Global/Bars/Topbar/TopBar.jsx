@@ -1,5 +1,5 @@
 import "./TopBar.css";
-import Hamburger from "../Hamburger";
+import Hamburger from "../../../Icons/Hamburger/Hamburger";
 
 const Topbar = ({ setSidebarCollapsed }) => {
   return (

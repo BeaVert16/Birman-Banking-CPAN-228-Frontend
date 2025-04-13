@@ -1,20 +1,43 @@
-.progressBar {
-  width: 100%;
+.homeBar {
+  height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: #2a3b57;
   height: 60px;
-  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
+  border-bottom: 0.25rem solid #151f2e;
   position: relative;
+  padding: 0 20px;
 }
 
-.progressBar img {
+.homeBar img {
   max-height: 70%;
   max-width: 70%;
-  margin-right: 10px;
 }
 
-.progressBar .title{
-  flex-grow: 0 !important;
+.homeBar .title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: white;
+}
+
+.homeBar .register-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.homeBar .register-buttons a button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.homeBar .register-buttons a button:hover {
+  background-color: #0056b3;
 }

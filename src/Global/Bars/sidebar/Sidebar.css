@@ -82,13 +82,3 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-
-li {
-  background-color: #2A3B57; /* Dark Navy Blue (Primary) */
-  color: #e7e7e7; /* White text for contrast */
-}
-
-/* NOTE: not working. */
-.sidebar-container .pro-menu-item:hover .pro-item-content {
-  color: black !important;
-}
