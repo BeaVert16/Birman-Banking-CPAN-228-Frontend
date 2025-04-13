@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
-import ProgressBar from "./ProgressBar/ProgressBar"; // Fixed typo
-import "./RegisterPage.css"; // Updated import
+import ProgressBar from "./ProgressBar/ProgressBar"; 
+import "./RegisterPage.css";
 
 const provinces = [
   "Alberta",

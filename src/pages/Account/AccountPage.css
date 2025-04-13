@@ -1,7 +1,50 @@
 .card{
     color: #151f2e;
+    border: 1px solid #ccc; /* Add border */
+    padding: 15px; /* Add padding */
+    margin-bottom: 10px; /* Add margin */
+    border-radius: 8px; /* Add rounded corners */
+    background-color: #f9f9f9; /* Light background */
 }
 
 .welcome{
     color: #151f2e;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style for the link wrapper */
+.account-card-link {
+    text-decoration: none; /* Remove underline from link */
+    color: inherit; /* Inherit text color */
+    display: block; /* Make the link a block element */
+    margin-bottom: 15px; /* Space between cards */
+}
+
+/* Style for the card itself */
+.account-card {
+    border: 1px solid #ddd;
+    padding: 7px 7px; /* Add padding */
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.account-card h3 {
+    margin-top: 0;
+    color: #0056b3; /* Example color */
+}
+
+.account-list h2{
+    color: #151f2e;
+}
+
+.account-id {
+    font-size: 0.8em;
+    color: #666;
+    display: block;
+    margin-bottom: 10px;
 }

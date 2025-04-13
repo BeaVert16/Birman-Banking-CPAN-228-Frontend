@@ -9,6 +9,7 @@ import AboutPage from "./pages/About/AboutPage";
 import PageNotFound from "./pages/Error/PageNotFound";
 import AccountPage from "./pages/Account/AccountPage";
 import RouteProtector from "./auth/RouteProtector";
+import AccountDetails from "./pages/Account/AccountDetails/AccountDetails";
 
 const App = () => {
   return (
@@ -22,6 +23,8 @@ const App = () => {
 
           <Route path="/" element={<InterfaceOutput />}>
             <Route path="account" element={<RouteProtector><AccountPage /></RouteProtector>} />
+            <Route path="account/:accountId/details" element={<RouteProtector><AccountDetails /></RouteProtector>} />
+
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
