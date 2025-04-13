@@ -1,16 +1,17 @@
 .footer {
   display: flex;
-  flex-direction: row;
-  height: 100%;
+  flex-direction: column;
+  height: 60px;
   color: rgb(165, 165, 165);
   align-items: center;
   justify-content: center;
-  background-color: #2A3B57;
+  background-color: #2a3b57;
   border-top: 0.25rem solid #151f2e;
-  height: 60px;
-  font-family: 'Roboto', sans-serif;
-   position: fixed;
+  font-family: "Roboto", sans-serif;
+  position: fixed;
   bottom: 0;
   width: 100%;
   z-index: 1000;
+  align-items: center;
+  text-align: center;
 }
