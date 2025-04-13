@@ -7,7 +7,7 @@ const RouteProtector = ({ children, requiredRole }) => {
   const token = localStorage.getItem("token");
 
   if (!token || !isAuthenticated) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (requiredRole === "admin" && !user?.isAdmin) {
