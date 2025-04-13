@@ -79,7 +79,7 @@ const Bar = ({ collapsed }) => {
   
       <div className="bottom-content">
         <Sidebar collapsed={collapsed}>
-          <Menu>
+          <Menu className="menu">
             {/* Settings. */}
             <MenuItem
               component={<Link to="/settings" className="link" />}
