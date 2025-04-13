@@ -150,19 +150,3 @@ select {
   border-bottom: 2px solid #151f2e;
   padding-bottom: 10px;
 }
-
-@media (max-width: 600px) {
-  .register-container {
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 1.4rem;
-  }
-
-  input,
-  select,
-  button {
-    font-size: 1rem;
-  }
-}
