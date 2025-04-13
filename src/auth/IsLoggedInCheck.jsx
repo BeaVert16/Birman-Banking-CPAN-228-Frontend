@@ -20,7 +20,7 @@ const IsLoggedInCheck = ({ children }) => {
     }
 
     try {
-      const response = await fetch(`${serverIpAddress}/auth/session-check`, {
+      const response = await fetch(`${serverIpAddress}/api/auth/session-check`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const IsLoggedInCheck = ({ children }) => {
       } else {
         setIsAuthenticated(false);
         setUser(null);
-        localStorage.removeItem("token"); // Clear invalid token
+        localStorage.removeItem("token");
       }
     } catch (error) {
       console.error("Error checking auth status:", error);

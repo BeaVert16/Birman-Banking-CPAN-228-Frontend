@@ -3,7 +3,6 @@ import "./AccountPage.css";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
-import HomeBar from "../../Global/Bars/HomeBar/HomeBar";
 
 const AccountPage = () => {
   const { isAuthenticated, logout } = useContext(IsLoggedInContext);
