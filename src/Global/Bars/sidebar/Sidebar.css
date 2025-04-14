@@ -15,7 +15,9 @@
   border-right: 0.25rem solid #151f2e;
 
 }
-
+menuitem{
+  color: white;
+}
 .css-1wvake5 {
   border-right-width: 0 !important;
 }

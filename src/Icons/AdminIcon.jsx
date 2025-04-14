@@ -1,50 +1,25 @@
-import PropTypes from "prop-types";
+const AdminIcon = ({ size = 32, color = "black" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Shield outline */}
+    <path
+      d="M32 4 L12 12 V28 C12 44 24 56 32 60 C40 56 52 44 52 28 V12 L32 4 Z"
+      stroke={color}
+      strokeWidth="4"
+      fill="white"
+    />
 
-const AdminIcon = ({ width = 24, height = 24 }) => {
-  return (
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g>
-        <circle style="fill:#FFDA44;" cx="30" cy="30" r="30" />
-        <path
-          style="fill:#FF9811;"
-          d="M30,60c12.168,0,22.45-7.326,26.897-17.792L37.328,33.661L19.96,41.967l0.046,0.046
-            C23.187,56.43,26.351,60,30,60z"
-        />
-        <path
-          style="fill:#FF9811;"
-          d="M56.897,42.208C58.771,38.267,60,33.27,60,28.022H30v-8.333h15.649L56.897,42.208z"
-        />
-        <polygon
-          style="fill:#D80027;"
-          points="30,34.889 19.96,41.967 19.96,22.778 30,15.7 40.04,22.778 40.04,41.967     "
-        />
-        <path
-          style="fill:#0052B4;"
-          d="M40.04,41.967V22.778L30,15.7l0,0v19.189v19.189l10.04-7.078H40.04z"
-        />
-        <path
-          style="fill:#6DA544;"
-          d="M30,22.778v19.189V30.611l-9.385,5.759v1.782v1.782L30,41.967V34.889z"
-        />
-        <path
-          style="fill:#A2001D;"
-          d="M30,34.889v7.078l-5.041-3.091v-7.078L30,34.889z"
-        />
-      </g>
-    </svg>
-  );
-};
-
-AdminIcon.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  color: PropTypes.string,
-};
+    {/* Star in the center */}
+    <path
+      d="M32 22 L34.5 28 H41 L36 32 L38 38 L32 34 L26 38 L28 32 L23 28 H29.5 L32 22 Z"
+      fill={color}
+    />
+  </svg>
+);
 
 export default AdminIcon;
