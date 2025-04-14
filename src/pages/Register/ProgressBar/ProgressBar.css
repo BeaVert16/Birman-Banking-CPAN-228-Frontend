@@ -5,16 +5,34 @@
   align-items: center;
   background-color: #2a3b57;
   height: 60px;
-  border-bottom: 0.25rem solid #151f2e; /* Dark Navy Blue for subtle border */
   position: relative;
 }
 
+.progressBar a{
+  text-decoration: none;
+  color: white;
+}
 .progressBar img {
   max-height: 70%;
   max-width: 70%;
   margin-right: 10px;
 }
 
-.progressBar .title{
+.progressBar .title {
   flex-grow: 0 !important;
+}
+
+.progress-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #151f2e;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease-in-out;
 }

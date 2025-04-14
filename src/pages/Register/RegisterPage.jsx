@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
-import ProgressBar from "./ProgressBar/ProgressBar"; 
+import ProgressBar from "./ProgressBar/ProgressBar";
 import "./RegisterPage.css";
 
 const provinces = [
@@ -61,8 +61,11 @@ const Register = () => {
     } else if (step === 3) {
       if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
         newErrors.email = "Valid email is required.";
-      if (!formData.phoneNumber.trim())
-        newErrors.phoneNumber = "Phone number is required.";
+      if (!formData.phoneNumber.trim() || formData.phoneNumber.length !== 10)
+        newErrors.phoneNumber = "Phone number must be 10 digits.";
+    } else if (step === 4) {
+      if (!formData.password.trim() || formData.password.length < 6)
+        newErrors.password = "Password must be at least 6 characters.";
     }
     return newErrors;
   };
@@ -87,6 +90,19 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "sin" || name === "phoneNumber") {
+      const numericValue = value.replace(/\D/g, ""); // Remove all non-numeric characters
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: numericValue,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -193,6 +209,11 @@ const Register = () => {
                     type="text"
                     id="sin"
                     name="sin"
+                    inputMode="numeric"
+                    maxLength="9"
+                    minLength="9"
+                    placeholder="Enter your 9-digit SIN"
+                    pattern="\d{9}"
                     value={formData.sin}
                     onChange={handleChange}
                     aria-label="Social Insurance Number"
@@ -215,6 +236,7 @@ const Register = () => {
                     type="text"
                     id="address"
                     name="address"
+                    placeholder="Enter your address"
                     value={formData.address}
                     onChange={handleChange}
                     aria-label="Address"
@@ -230,6 +252,7 @@ const Register = () => {
                     type="text"
                     id="city"
                     name="city"
+                    placeholder="Enter your city"
                     value={formData.city}
                     onChange={handleChange}
                     aria-label="City"
@@ -245,6 +268,10 @@ const Register = () => {
                     type="text"
                     id="postalCode"
                     name="postalCode"
+                    inputMode="numeric"
+                    maxLength="6"
+                    minLength="6"
+                    placeholder="Enter your postal code"
                     value={formData.postalCode}
                     onChange={handleChange}
                     aria-label="Postal Code"
@@ -303,6 +330,7 @@ const Register = () => {
                     type="email"
                     id="email"
                     name="email"
+                    placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleChange}
                     aria-label="Email"
@@ -318,6 +346,11 @@ const Register = () => {
                     type="text"
                     id="phoneNumber"
                     name="phoneNumber"
+                    inputMode="numeric"
+                    maxLength="10"
+                    minLength="10"
+                    placeholder="Enter your phone number"
+                    pattern="\d{10}"
                     value={formData.phoneNumber}
                     onChange={handleChange}
                     aria-label="Phone Number"
@@ -344,6 +377,7 @@ const Register = () => {
                     type="password"
                     id="password"
                     name="password"
+                    minLength="6"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}

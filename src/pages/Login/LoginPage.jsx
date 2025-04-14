@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../ServerIpAdd";
 
-import "./LoginPage.css"
+import "./LoginPage.css";
 import LoadingCat from "../../Global/LoadingCat/LoadingCat";
 
 const LoginPage = () => {
@@ -16,6 +16,7 @@ const LoginPage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState(""); // State specifically for login API errors
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -27,6 +28,8 @@ const LoginPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setLoginError(""); // Clear login error on input change
+    setErrors((prev) => ({ ...prev, [name]: undefined })); // Clear specific field validation error
 
     if (name === "cardNumber") {
       const numericValue = value.replace(/\D/g, "");
@@ -40,7 +43,10 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoginError(""); // Clear previous login errors
+    setErrors({}); // Clear validation errors
 
+    // --- Frontend Validation ---
     const newErrors = {};
     if (!formData.cardNumber) {
       newErrors.cardNumber = "Card number is required.";
@@ -56,6 +62,7 @@ const LoginPage = () => {
       setErrors(newErrors);
       return;
     }
+    // --- End Frontend Validation ---
 
     setIsLoading(true);
 
@@ -69,17 +76,40 @@ const LoginPage = () => {
         }),
       });
 
-      const result = await response.json();
-
+      // --- Check if the response status indicates success ---
       if (response.ok) {
+        const result = await response.json(); // Only parse JSON if response is OK
         localStorage.setItem("token", result.token);
-        await checkAuth();
-        navigate("/account");
+        await checkAuth(); // Refresh auth context
+        navigate("/account"); // Navigate on successful login
       } else {
-        alert(result.error || "Login failed. Please try again.");
+        // --- Handle non-OK responses (like 401 Unauthorized) ---
+        let errorMessage = `Login failed with status: ${response.status}`;
+        try {
+          // Try to get more specific error message from backend response body
+          const errorResult = await response.json(); // Try parsing as JSON first
+          errorMessage =
+            errorResult.message ||
+            errorResult.error ||
+            JSON.stringify(errorResult);
+        } catch (e) {
+          console.error("Failed to parse error response as JSON:", e);
+          try {
+            const errorText = await response.text();
+            if (errorText) {
+              errorMessage = errorText;
+            }
+          } catch (e) {
+            console.error("Failed to read error response as text:", e);
+          }
+        }
+        console.error("Login failed:", errorMessage);
+        setLoginError(errorMessage); // Set the specific login error state
       }
     } catch (error) {
+      // --- Handle network errors or other exceptions during fetch ---
       console.error("Error logging in:", error);
+      setLoginError("Network error or server unavailable. Please try again."); // Set a generic error
     } finally {
       setIsLoading(false);
     }
@@ -126,6 +156,11 @@ const LoginPage = () => {
             />
             {errors.password && (
               <span className="error-box">{errors.password}</span>
+            )}
+            {loginError && (
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                <span className="error-box">{loginError}</span>
+              </div>
             )}
           </label>
           <button type="submit" className="login" disabled={isLoading}>

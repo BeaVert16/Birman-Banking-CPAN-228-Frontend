@@ -18,16 +18,27 @@ const E_TransferPage = () => {
     setMessage("");
     setError("");
 
-    // Construct the transfer request with all required fields
+    if (
+      !selectedAccountId ||
+      !recipientPhoneNumber ||
+      !amount ||
+      parseFloat(amount) <= 0
+    ) {
+      setError(
+        "Please select an account, provide a recipient phone number, and a positive transfer amount."
+      );
+      return;
+    }
+
     const transferRequest = {
-      senderClientId: user.token, // Sender's client ID
-      senderAccountId: selectedAccountId, // Sender's account ID
-      recipientPhoneNumber, // Recipient's phone number
-      amount: parseFloat(amount), // Amount to transfer
+      senderClientId: user.token,
+      senderAccountId: selectedAccountId,
+      recipientPhoneNumber,
+      amount: parseFloat(amount),
     };
 
-    console.log("Transfer Request Data:", transferRequest); // Log the transfer request data
-    console.log("JWT Token:", user.token); // Log the token for debugging
+    console.log("Transfer Request Data:", transferRequest);
+    console.log("JWT Token:", user.token);
 
     try {
       const response = await fetch(
@@ -36,7 +47,7 @@ const E_TransferPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`, // Include JWT token
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify(transferRequest),
         }
@@ -49,6 +60,10 @@ const E_TransferPage = () => {
       }
 
       setMessage(result.message);
+      // Optionally clear fields after successful transfer
+      // setSelectedAccountId("");
+      // setRecipientPhoneNumber("");
+      // setAmount("");
     } catch (err) {
       setError(err.message);
     }
@@ -60,53 +75,74 @@ const E_TransferPage = () => {
     setSelectedAccountId,
   }) => {
     return (
-      <select
-        value={selectedAccountId}
-        onChange={(e) => setSelectedAccountId(e.target.value)} // Update state on selection
-        required
-      >
-        <option value="">Select an account</option>
-        {accounts.map((account) => (
-          <option key={account.accountId} value={account.accountId}>
-            {account.accountType} - ${account.balance.toFixed(2)}
-          </option>
-        ))}
-      </select>
+      <div>
+        <label htmlFor="account-select">From Account:</label>
+        <select
+          id="account-select"
+          value={selectedAccountId}
+          onChange={(e) => setSelectedAccountId(e.target.value)}
+          required
+        >
+          <option value="">Select an account</option>
+          {accounts.map((account) => (
+            <option key={account.accountId} value={account.accountId}>
+              {account.accountType} - ${account.balance.toFixed(2)}
+            </option>
+          ))}
+        </select>
+      </div>
     );
   };
 
   return (
-    <div className="transaction-page">
-      <h2>Transfer Money</h2>
-      <form onSubmit={handleTransfer}>
-        {fetchError && <p className="error-message">{fetchError}</p>}
-        <AccountDropdown
-          accounts={accounts}
-          selectedAccountId={selectedAccountId}
-          setSelectedAccountId={setSelectedAccountId}
-        />
-        <div>
-          <label>Recipient Phone Number:</label>
-          <input
-            type="text"
-            value={recipientPhoneNumber}
-            onChange={(e) => setRecipientPhoneNumber(e.target.value)}
-            required
+    <div className="e-transfer-page">
+      {" "}
+      {/* Updated class */}
+      <div className="transfer-container">
+        {" "}
+        {/* Updated class */}
+        <h2>Transfer Money</h2>
+        <form onSubmit={handleTransfer}>
+          {fetchError && (
+            <p className="alert-message error-message">{fetchError}</p>
+          )}{" "}
+          {/* Added base class */}
+          <AccountDropdown
+            accounts={accounts}
+            selectedAccountId={selectedAccountId}
+            setSelectedAccountId={setSelectedAccountId}
           />
-        </div>
-        <div>
-          <label>Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Transfer</button>
-      </form>
-      {message && <p className="success-message">{message}</p>}
-      {error && <p className="error-message">{error}</p>}
+          <div>
+            <label htmlFor="recipient-phone">Recipient Phone Number:</label>
+            <input
+              id="recipient-phone"
+              type="text"
+              value={recipientPhoneNumber}
+              onChange={(e) => setRecipientPhoneNumber(e.target.value)}
+              placeholder="e.g., 123-456-7890"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="transfer-amount">Amount:</label>
+            <input
+              id="transfer-amount"
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              min="0.01" // Ensure positive amount
+              step="0.01" // Allow cents
+              required
+            />
+          </div>
+          <button type="submit">Transfer</button>
+        </form>
+        {message && <p className="alert-message success-message">{message}</p>}{" "}
+        {/* Added base class */}
+        {error && <p className="alert-message error-message">{error}</p>}{" "}
+        {/* Added base class */}
+      </div>
     </div>
   );
 };

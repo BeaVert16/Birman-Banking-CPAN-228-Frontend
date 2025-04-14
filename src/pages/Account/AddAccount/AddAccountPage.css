@@ -1,59 +1,145 @@
 .create-account-page {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .create-account-page h2 {
-    text-align: center;
-  }
-  
-  .create-account-page form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .create-account-page form div {
-    margin-bottom: 15px;
-  }
-  
-  .create-account-page label {
-    font-weight: bold;
-  }
-  
-  .create-account-page input,
-  .create-account-page select,
-  .create-account-page button {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .create-account-page .success-message {
-    color: green;
-    text-align: center;
-  }
-  
-  .create-account-page .error-message {
-    color: red;
-    text-align: center;
-  }
-  
-  .create-account-page .back-button {
-    margin-top: 15px;
-    padding: 8px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .create-account-page .back-button:hover {
-    background-color: #0056b3;
-  }
+  padding: 20px;
+  max-width: 500px; /* Adjusted max-width for a form */
+  margin: 20px auto;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.create-account-page h2 {
+  color: #1a3a6e;
+  text-align: center;
+  margin-bottom: 30px; /* Increased margin */
+  font-weight: 600; /* Bold heading */
+  padding-bottom: 15px; /* Add padding */
+  border-bottom: 1px solid #e0e0e0; /* Add border */
+}
+
+.create-account-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Add gap between form elements */
+}
+
+.create-account-page form div {
+  margin-bottom: 0; /* Remove default margin */
+}
+
+.create-account-page label {
+  font-weight: 500; /* Slightly less bold */
+  display: block; /* Ensure label is on its own line */
+  margin-bottom: 5px; /* Space between label and input */
+  color: #333; /* Darker label color */
+}
+
+.create-account-page input,
+.create-account-page select {
+  width: 100%;
+  padding: 10px 12px; /* Increased padding */
+  margin-top: 0; /* Remove default margin */
+  border: 1px solid #d1d9e6; /* Consistent border */
+  border-radius: 6px; /* Consistent radius */
+  box-sizing: border-box; /* Include padding and border in width */
+  font-size: 1em; /* Standard font size */
+  background-color: #fff; /* White background */
+}
+
+.create-account-page input:focus,
+.create-account-page select:focus {
+  border-color: #0056b3; /* Highlight on focus */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2); /* Subtle focus shadow */
+}
+
+.create-account-page button[type="submit"] {
+  width: 100%;
+  padding: 12px 25px;
+  margin-top: 10px; /* Space above button */
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-size: 1em;
+}
+
+.create-account-page button[type="submit"]:hover:not(:disabled) {
+  background-color: #004494;
+  transform: translateY(-2px);
+}
+
+.create-account-page button[type="submit"]:disabled {
+  background-color: #a0c7e4; /* Lighter blue when disabled */
+  cursor: not-allowed;
+}
+
+.create-account-page .delete-account-button {
+  width: 100%;
+  padding: 10px 20px;
+  margin-top: 15px; /* Space above delete button */
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.95em;
+}
+
+.create-account-page .delete-account-button:hover:not(:disabled) {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+.create-account-page .delete-account-button:disabled {
+  background-color: #f1b0b7; /* Lighter red when disabled */
+  cursor: not-allowed;
+}
+
+.create-account-page .success-message,
+.create-account-page .error-message {
+  text-align: center;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.create-account-page .success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.create-account-page .error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.create-account-page .back-button {
+  display: block; /* Make it block to center */
+  width: fit-content;
+  margin: 25px auto 10px auto; /* Center and add margin */
+  padding: 10px 20px;
+  background-color: #3182ce; /* Gray color like AccountDetails */
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.create-account-page .back-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}

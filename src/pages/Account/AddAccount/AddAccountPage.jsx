@@ -24,8 +24,6 @@ const AddAccountPage = () => {
             navigate("/login");
             return;
           }
-          console.log("Fetching account details for accountId:", accountId);
-          console.log("Server IP Address:", token);
           const response = await fetch(
             `${serverIpAddress}/api/accounts/${accountId}/basic`,
             {
@@ -76,8 +74,6 @@ const AddAccountPage = () => {
         return;
       }
 
-      console.log("Submitting account name:", accountName); // Debugging log
-
       const response = await fetch(
         isEditMode
           ? `${serverIpAddress}/api/accounts/${accountId}/update-name`
@@ -89,8 +85,8 @@ const AddAccountPage = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            accountName, // Ensure this matches the backend's expected field name
-            ...(isEditMode ? {} : { accountType }), // Include accountType only for new accounts
+            accountName,
+            ...(isEditMode ? {} : { accountType }),
           }),
         }
       );
@@ -105,21 +101,6 @@ const AddAccountPage = () => {
       }
 
       const data = await response.json().catch(() => null);
-      setMessage(
-        isEditMode
-          ? "Account updated successfully."
-          : `Account created successfully: ${data?.accountId || "N/A"}`
-      );
-
-      if (!isEditMode) {
-        setAccountName("");
-        setAccountType("Chequing");
-      }
-      setMessage(
-        isEditMode
-          ? "Account updated successfully."
-          : `Account created successfully: ${data?.accountId || "N/A"}`
-      );
       navigate("/account", {
         state: {
           message: isEditMode
@@ -131,6 +112,43 @@ const AddAccountPage = () => {
       setError("A network error occurred: " + e.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this account?")) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("Authentication token not found.");
+        navigate("/login");
+        return;
+      }
+
+      const response = await fetch(
+        `${serverIpAddress}/api/accounts/${accountId}/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        setError(errorData?.message || "Failed to delete the account.");
+        return;
+      }
+
+      navigate("/account", {
+        state: { message: "Account deleted successfully." },
+      });
+    } catch (e) {
+      setError("A network error occurred: " + e.message);
     }
   };
 
@@ -171,6 +189,15 @@ const AddAccountPage = () => {
             : "Create Account"}
         </button>
       </form>
+      {isEditMode && (
+        <button
+          onClick={handleDelete}
+          className="delete-account-button"
+          disabled={loading}
+        >
+          Delete Account
+        </button>
+      )}
       {message && <p className="success-message">{message}</p>}
       {error && <p className="error-message">{error}</p>}
       <button onClick={() => navigate("/account")} className="back-button">

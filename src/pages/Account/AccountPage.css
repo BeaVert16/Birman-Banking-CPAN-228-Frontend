@@ -1,83 +1,174 @@
-.card {
-  color: #151f2e;
-  border: 1px solid #ccc; /* Add border */
-  padding: 15px; /* Add padding */
-  margin-bottom: 10px; /* Add margin */
-  border-radius: 8px; /* Add rounded corners */
-  background-color: #f9f9f9; /* Light background */
+.account-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: #333;
 }
 
 .welcome {
-  color: #151f2e;
+  color: #1a3a6e;
+  font-size: 1.8em;
+  font-weight: 600;
 }
 
 .account-header {
   text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Style for the link wrapper */
-.account-card-link {
-  text-decoration: none; /* Remove underline from link */
-  color: inherit; /* Inherit text color */
-  display: block; /* Make the link a block element */
-  margin-bottom: 15px; /* Space between cards */
-}
-
-/* Style for the card itself */
-.account-card {
-  border: 1px solid #ddd;
-  padding: 7px 7px; /* Add padding */
-  border-radius: 8px;
-  background-color: #fff;
-  cursor: pointer; /* Change cursor on hover */
-}
-
-.account-card h3 {
-  margin-top: 0;
-  color: #0056b3; /* Example color */
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .account-list h2 {
-  color: #151f2e;
+  color: #1a3a6e;
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+.account-card {
+  border: 1px solid #e1e4e8; /* Lighter border */
+  padding: 20px; /* Increased padding */
+  border-radius: 6px; /* Slightly smaller radius */
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: grid; /* Use grid for better layout control */
+  grid-template-columns: 1fr auto; /* Main info | Balance & Actions */
+  grid-template-rows: auto auto auto; /* Type, Name/ID, Status */
+  grid-template-areas:
+    "type actions"
+    "details balance"
+    "status balance";
+  gap: 5px 20px; /* Row gap, Column gap */
+  position: relative;
+}
+
+.account-card:hover {
+  transform: translateY(-2px); /* Subtle lift */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+}
+
+.account-card h3 {
+  grid-area: type;
+  margin: 0;
+  color: #1a3a6e; /* Darker blue for type */
+  font-size: 1.1em; /* Slightly smaller */
+  font-weight: 600;
+  align-self: center; /* Center vertically in its grid area */
+}
+
+.account-details {
+  /* New container for name and ID */
+  grid-area: details;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .account-id {
-  font-size: 0.8em;
-  color: #666;
+  font-size: 0.85em; /* Smaller font for IDs */
+  color: #586069; /* GitHub-like gray */
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0; /* Remove default margin */
+}
+
+.account-balance {
+  /* New class for balance styling */
+  grid-area: balance;
+  text-align: right;
+  font-size: 1.4em; /* Larger balance */
+  font-weight: 600;
+  color: #24292e; /* Darker text */
+  align-self: center; /* Center vertically */
+}
+
+.account-status {
+  /* New class for status styling */
+  grid-area: status;
+  font-size: 0.9em;
+  color: #586069;
+  align-self: end; /* Align to bottom of its area */
+}
+
+.account-actions {
+  grid-area: actions;
+  position: static; /* Remove absolute positioning */
+  justify-self: end; /* Align to the right */
+  align-self: start; /* Align to the top */
+}
+
+.edit-account-button {
+  background-color: transparent; /* Cleaner look */
+  color: #0366d6; /* Standard link blue */
+  border: none;
+  padding: 5px 8px; /* Adjust padding */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.edit-account-button:hover {
+  background-color: #f1f8ff; /* Light blue background on hover */
+  text-decoration: underline;
+}
+
+.create-account-button {
+  display: block;
+  width: fit-content;
+  margin: 30px auto 10px auto;
+  padding: 12px 25px;
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.create-account-button:hover {
+  background-color: #004494;
+  transform: translateY(-2px);
 }
 
 .message-popup {
   position: fixed;
+  top: 20px;
   left: 50%;
-  transform: translate(-50%, -50%); /* Center the popup */
-  background-color: #4caf50; /* Green background */
+  transform: translateX(-50%);
+  background-color: #28a745;
   color: white;
-  padding: 15px 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 12px 25px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   text-align: center;
-  animation: fadeInOut 3s ease-in-out;
+  font-size: 1em;
+  font-weight: 500;
+  animation: fadeInOut 3s ease-in-out forwards;
 }
 
 @keyframes fadeInOut {
   0% {
     opacity: 0;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -20px);
   }
   10% {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
   }
   90% {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -20px);
   }
 }

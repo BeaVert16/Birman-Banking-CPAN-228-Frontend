@@ -18,7 +18,9 @@ const DepositPage = () => {
     setError("");
 
     if (!selectedAccountId || !amount || parseFloat(amount) <= 0) {
-      setError("Please select an account and provide a positive deposit amount.");
+      setError(
+        "Please select an account and provide a positive deposit amount."
+      );
       return;
     }
 
@@ -28,14 +30,17 @@ const DepositPage = () => {
     };
 
     try {
-      const response = await fetch(`${serverIpAddress}/api/transactions/deposit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Include JWT token
-        },
-        body: JSON.stringify(depositRequest),
-      });
+      const response = await fetch(
+        `${serverIpAddress}/api/transactions/deposit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(depositRequest),
+        }
+      );
 
       const result = await response.json();
 
@@ -53,11 +58,13 @@ const DepositPage = () => {
     accounts,
     selectedAccountId,
     setSelectedAccountId,
-  }) => {
-    return (
+  }) => (
+    <div>
+      <label htmlFor="account-select">Select Account:</label>
       <select
+        id="account-select"
         value={selectedAccountId}
-        onChange={(e) => setSelectedAccountId(e.target.value)} // Update state on selection
+        onChange={(e) => setSelectedAccountId(e.target.value)}
         required
       >
         <option value="">Select an account</option>
@@ -67,32 +74,38 @@ const DepositPage = () => {
           </option>
         ))}
       </select>
-    );
-  };
+    </div>
+  );
 
   return (
-    <div className="transaction-page">
-      <h2>Deposit Money</h2>
-      <form onSubmit={handleDeposit}>
-        {fetchError && <p className="error-message">{fetchError}</p>}
-        <AccountDropdown
-          accounts={accounts}
-          selectedAccountId={selectedAccountId}
-          setSelectedAccountId={setSelectedAccountId}
-        />
-        <div>
-          <label>Deposit Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
+    <div className="deposit-page">
+      <div className="transaction-page">
+        <h2>Deposit Money</h2>
+        <form onSubmit={handleDeposit}>
+          {fetchError && <p className="error-message">{fetchError}</p>}
+          <AccountDropdown
+            accounts={accounts}
+            selectedAccountId={selectedAccountId}
+            setSelectedAccountId={setSelectedAccountId}
           />
-        </div>
-        <button type="submit">Deposit</button>
-      </form>
-      {message && <p className="success-message">{message}</p>}
-      {error && <p className="error-message">{error}</p>}
+          <div>
+            <label htmlFor="deposit-amount">Deposit Amount:</label>
+            <div className="input-with-dollar">
+              <span>$</span>
+              <input
+                id="deposit-amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <button type="submit">Deposit</button>
+        </form>
+        {message && <p className="success-message">{message}</p>}
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
 };

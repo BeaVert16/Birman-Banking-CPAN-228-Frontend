@@ -78,6 +78,13 @@ const AccountDetails = () => {
     }
   };
 
+  const formatCurrency = (value) => {
+    return value.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
   if (loading) {
     return <LoadingCat />;
   }
@@ -96,7 +103,7 @@ const AccountDetails = () => {
       <div className="card account-summary">
         <h3>Account Details</h3>
         <p>Account ID: {accountDetails.accountId}</p>
-        <p>Balance: ${accountDetails.balance.toFixed(2)}</p>
+        <p className="balance">Balance: ${formatCurrency(accountDetails.balance)}</p>
         <p>Status: {accountDetails.status}</p>
         <p>Created At: {new Date(accountDetails.createdAt).toLocaleString()}</p>
       </div>
@@ -111,12 +118,12 @@ const AccountDetails = () => {
                 <p>
                   Amount:{" "}
                   <span className={tx.transactionAmount >= 0 ? "positive" : "negative"}>
-                    ${Math.abs(tx.transactionAmount).toFixed(2)}
+                    ${formatCurrency(Math.abs(tx.transactionAmount))}
                   </span>
                 </p>
                 <p>Date: {new Date(tx.timestamp).toLocaleString()}</p>
                 <p>Description: {tx.description || "N/A"}</p>
-                <p>Balance After: ${tx.postTransactionBalance.toFixed(2)}</p>
+                <p>Balance After: ${formatCurrency(tx.postTransactionBalance)}</p>
                 {tx.transferToAccountId && <p>Transfer To: {tx.transferToAccountId}</p>}
               </div>
             ))}

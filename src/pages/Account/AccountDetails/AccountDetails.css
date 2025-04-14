@@ -1,79 +1,146 @@
-/* filepath: /home/alexander/Documents/Sem-4-Code/Web Application Development/FINAL PROJECT/Birman-Banking-CPAN-228-Frontend/src/pages/Account/AccountDetails/AccountDetails.css */
-.account-details-container {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: #151f2e;
-  }
-  
-  .account-details-container h2,
-  .account-details-container h3 {
-    color: #0056b3;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .details-section p,
-  .transaction-item p {
-    margin: 5px 0;
-    line-height: 1.6;
-  }
-  
-  .details-section strong,
-  .transaction-item strong {
-    margin-right: 8px;
-    color: #333;
-  }
-  
-  .transactions-section {
-    margin-top: 20px;
-  }
-  
-  .transaction-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .transaction-item {
-    border: 1px solid #e0e0e0;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .transaction-item .positive {
-      color: green;
-      font-weight: bold;
-  }
-  
-  .transaction-item .negative {
-      color: red;
-      font-weight: bold;
-  }
-  
-  .error-message {
-    color: red;
-    padding: 15px;
-    border: 1px solid red;
-    border-radius: 5px;
-    background-color: #ffebee;
-  }
-  
-  .back-button {
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.2s ease;
-  }
-  
-  .back-button:hover {
-      background-color: #0056b3;
-  }
+.account-details-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.account-details-page h2,
+.account-details-page h3 {
+  color: #1a3a6e;
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 500;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.account-details-page h3 {
+  text-align: left;
+  font-size: 1.3em;
+  margin-top: 30px;
+}
+
+.card {
+  border: 1px solid #e1e4e8;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.account-summary p,
+.transaction-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+  color: #586069;
+  font-size: 0.95em;
+}
+
+.account-summary p:first-of-type,
+.transaction-item p:first-of-type {
+  margin-top: 0;
+}
+
+.account-summary p:last-of-type,
+.transaction-item p:last-of-type {
+  margin-bottom: 0;
+}
+
+.transaction-list {
+  margin-top: 15px;
+}
+
+.transaction-item {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.transaction-item:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+.transaction-item .positive {
+  color: #28a745; /* Green for positive amounts */
+  font-weight: 600;
+}
+
+.transaction-item .negative {
+  color: #dc3545; /* Red for negative amounts */
+  font-weight: 600;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #e1e4e8;
+}
+
+.pagination-controls button {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #004494;
+}
+
+.pagination-controls button:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.pagination-controls span {
+  font-size: 0.9em;
+  color: #586069;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.back-button {
+  display: block;
+  width: fit-content;
+  margin: 30px auto 10px auto;
+  padding: 10px 20px; /* Adjusted padding */
+  background-color: #3182ce; /* Secondary/Gray color */
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  border: none; /* Ensure no default border */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px); /* Subtle lift */
+}
+
+.balance{
+  font-weight: bold;
+}
