@@ -1,6 +1,10 @@
 import "./HomeBar.css";
+import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
+import { useContext } from "react";
 
 const HomeBar = () => {
+  const { logout, isAuthenticated  } = useContext(IsLoggedInContext);
+
   return (
     <div className="homeBar">
       <img
@@ -9,12 +13,24 @@ const HomeBar = () => {
       />
       <div className="title">BIRMAN BANKING</div>
       <div className="register-buttons">
-        <a href="/Login" className="register-button">
-          <button>Login</button>
-        </a>
-        <a href="/register" className="register-button">
-          <button>Sign Up</button>
-        </a>
+
+        {/* If not logged-in. */}
+        {!isAuthenticated && (
+          <>
+            <a href="/Login" className="register-button">
+              <button>Login</button>
+            </a>
+            <a href="/register" className="register-button">
+              <button>Register</button>
+            </a>
+          </>
+        )}
+        {/* If logged-in. */}
+        {isAuthenticated && (
+          <a href="/" className="register-button">
+            <button onClick={logout}>Logout</button>
+          </a>
+        )}
       </div>
     </div>
   );
