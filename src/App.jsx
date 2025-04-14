@@ -21,7 +21,7 @@ import Clients from "./Admin/Clients/Clients";
 import Accounts from "./Admin/Accounts/Accounts";
 import Users from "./Admin/Users/User";
 import AddAccountAdmin from "./Admin/Accounts/options/AddAccountAdmin";
-// import EditAccountAdmin from "./Admin/Accounts/options/EditAccountAdmin";
+import InboxPage from "./pages/Inbox/InboxPage";
 
 const App = () => {
   return (
@@ -32,6 +32,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/about" element={<AboutPage />} />
+
           {/* anything above here will be rendered without the overlays */}
 
           {/* anything inside this interface will be rendered with the overlays */}
@@ -41,17 +42,10 @@ const App = () => {
               path="admin-dashboard"
               element={
                 <RouteProtector requiredRole="ADMIN">
-                  <AdminDashboardTemplate/>
+                  <AdminDashboardTemplate />
                 </RouteProtector>
               }
             >
-              <Route
-                path="inbox"
-                element={
-                  <RouteProtector requiredRole="ADMIN">
-                  </RouteProtector>
-                }
-              />
               <Route
                 path="transactions"
                 element={
@@ -103,6 +97,7 @@ const App = () => {
             </Route>
 
             {/* Client pages */}
+            <Route path="inbox" element={<InboxPage />} />
             <Route
               path="account"
               element={

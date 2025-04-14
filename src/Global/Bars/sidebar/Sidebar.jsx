@@ -39,7 +39,9 @@ const Bar = ({ collapsed }) => {
             Accounts
           </MenuItem>
           <MenuItem
-            component={<Link to="/admin-dashboard/transactions" className="link" />}
+            component={
+              <Link to="/admin-dashboard/transactions" className="link" />
+            }
             icon={<TransactionIcon />}
           >
             Transactions
@@ -56,11 +58,11 @@ const Bar = ({ collapsed }) => {
           >
             Users
           </MenuItem>
-                    <MenuItem
-            component={<Link to="/admin-dashboard/clients" className="link" />}
+          <MenuItem
+            component={<Link to="/inbox" className="link" />}
             icon={<DBI />}
           >
-            Clients
+            Inbox
           </MenuItem>
         </>
       );
@@ -79,13 +81,6 @@ const Bar = ({ collapsed }) => {
             icon={<MoveMoney />}
             disabled={!isActivated} // Disable submenu if not activated
           >
-            <MenuItem
-              className="menu-item"
-              component={<Link to="/withdraw" className="link" />}
-              disabled={!isActivated}
-            >
-              Withdraw
-            </MenuItem>
             <MenuItem
               className="menu-item"
               component={<Link to="/deposit" className="link" />}
@@ -142,12 +137,6 @@ const Bar = ({ collapsed }) => {
       <div className="bottom-content">
         <Sidebar collapsed={collapsed}>
           <Menu className="menu">
-            <MenuItem
-              component={<Link to="/settings" className="link" />}
-              icon={<Gear />}
-            >
-              Settings
-            </MenuItem>
             <a href="https://github.com/BeaVert16/Birman-Banking-CPAN-228-Frontend">
               <div className="bottom-container">
                 <img
