@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
-// import "./Users.css";
+import "./User.css";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -155,9 +155,9 @@ const Users = () => {
           </li>
         ))}
       </ul>
-      <button onClick={handleCreateAdmin} className="create-admin-button">
+      {/* <button onClick={handleCreateAdmin} className="create-admin-button">
         Create Admin
-      </button>
+      </button> */}
     </div>
   );
 };

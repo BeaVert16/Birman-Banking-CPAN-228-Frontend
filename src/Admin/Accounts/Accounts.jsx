@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
-// import "./Accounts.css";
+import "./Accounts.css";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState([]);
