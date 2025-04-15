@@ -78,7 +78,7 @@ const AccountPage = () => {
                   className="edit-account-button"
                   onClick={(e) => handleEditClick(e, account.accountId)}
                 >
-                  Edit Name
+                  Edit
                 </button>
               </div>
             </div>

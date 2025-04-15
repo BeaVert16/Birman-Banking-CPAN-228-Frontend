@@ -28,14 +28,13 @@ const HomeBar = () => {
         {/* If logged-in. */}
         {isAuthenticated && (
           <>
-          <a href="/account" className="register-button">
-            <button>Account</button>
-          </a>
-          <a href="/" className="register-button">
-            <button onClick={logout}>Logout</button>
-          </a>
-        </>
-
+            <a href="/account" className="register-button">
+              <button>Account</button>
+            </a>
+            <a href="/" className="register-button">
+              <button onClick={logout}>Logout</button>
+            </a>
+          </>
         )}
       </div>
     </div>

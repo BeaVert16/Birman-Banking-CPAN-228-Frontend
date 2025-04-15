@@ -130,6 +130,8 @@ const E_TransferPage = () => {
               value={recipientPhoneNumber}
               onChange={(e) => setRecipientPhoneNumber(e.target.value)}
               placeholder="e.g., 123-456-7890"
+              maxLength="10"
+              minLength="10"
               required
             />
           </div>
