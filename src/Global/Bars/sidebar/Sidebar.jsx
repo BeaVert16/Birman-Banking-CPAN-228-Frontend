@@ -38,14 +38,14 @@ const Bar = ({ collapsed }) => {
           >
             Accounts
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             component={
               <Link to="/admin-dashboard/transactions" className="link" />
             }
             icon={<TransactionIcon />}
           >
             Transactions
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem
             component={<Link to="/admin-dashboard/clients" className="link" />}
             icon={<DBI />}

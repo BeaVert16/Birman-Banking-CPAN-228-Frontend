@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
-// import "./Clients.css";
+import "./Clients.css";
 
 const Clients = () => {
   const [clients, setClients] = useState([]);
@@ -107,10 +107,10 @@ const Clients = () => {
             <div>
               <strong>Client ID:</strong> {client.clientId}
             </div>
-            <div>
+            {/* <div>
               <strong>Name:</strong> {client.name}
-            </div>
-            <button
+            </div> */}
+            {/* <button
               onClick={() => handleEdit(client.clientId)}
               className="edit-button"
             >
@@ -121,16 +121,16 @@ const Clients = () => {
               className="delete-button"
             >
               Delete
-            </button>
+            </button> */}
           </li>
         ))}
       </ul>
-      <button
+      {/* <button
         onClick={() => navigate("/client/add")}
         className="create-client-button"
       >
         Create New Client
-      </button>
+      </button> */}
     </div>
   );
 };
