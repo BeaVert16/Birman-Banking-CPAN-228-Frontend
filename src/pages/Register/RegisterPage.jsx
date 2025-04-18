@@ -313,11 +313,11 @@ const Register = () => {
                     <option value="Canada">Canada</option>
                   </select>
                 </div>
-                <button type="button" onClick={handleBack}>
-                  Back
-                </button>
                 <button type="button" onClick={handleNext}>
                   Next
+                </button>
+                <button type="button" onClick={handleBack}>
+                  Back
                 </button>
               </>
             )}
@@ -360,11 +360,11 @@ const Register = () => {
                     <span className="error-box">{errors.phoneNumber}</span>
                   )}
                 </div>
-                <button type="button" className="register" onClick={handleBack}>
-                  Back
-                </button>
                 <button type="button" onClick={handleNext}>
                   Next
+                </button>
+                <button type="button" className="register" onClick={handleBack}>
+                  Back
                 </button>
               </>
             )}
@@ -388,11 +388,11 @@ const Register = () => {
                     <span className="error-box">{errors.password}</span>
                   )}
                 </div>
-                <button type="button" onClick={handleBack}>
-                  Back
-                </button>
                 <button type="submit" disabled={isLoading}>
                   {isLoading ? "Registering..." : "Register"}
+                </button>
+                <button type="button" onClick={handleBack}>
+                  Back
                 </button>
               </>
             )}
