@@ -16,12 +16,14 @@ import AddAccountPage from "./pages/Account/AddAccount/AddAccountPage";
 import InternalTransferPage from "./pages/Transactions/InternalTransfer/InternalTransferPage";
 
 import AdminDashboardTemplate from "./Admin/AdminDashboardTemplate";
-import Transactions from "./Admin/Transactions/Treansactions";
+import Transactions from "./Admin/Transactions/Transactions";
 import Clients from "./Admin/Clients/Clients";
 import Accounts from "./Admin/Accounts/Accounts";
 import Users from "./Admin/Users/User";
 import AddAccountAdmin from "./Admin/Accounts/options/AddAccountAdmin";
 import InboxPage from "./pages/Inbox/InboxPage";
+import CreditPage from "./pages/Transactions/Credit/CreditPage";
+import Loans from "./Admin/Loans/Loans";
 
 const App = () => {
   return (
@@ -59,6 +61,14 @@ const App = () => {
                 element={
                   <RouteProtector requiredRole="ADMIN">
                     <Clients />
+                  </RouteProtector>
+                }
+              />
+              <Route
+                path="loans"
+                element={
+                  <RouteProtector requiredRole="ADMIN">
+                    <Loans />
                   </RouteProtector>
                 }
               />
@@ -135,6 +145,14 @@ const App = () => {
               element={
                 <RouteProtector>
                   <DepositPage />
+                </RouteProtector>
+              }
+            />
+            <Route
+              path="credit"
+              element={
+                <RouteProtector>
+                  <CreditPage />
                 </RouteProtector>
               }
             />

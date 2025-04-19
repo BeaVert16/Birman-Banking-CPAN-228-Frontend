@@ -32,12 +32,12 @@ const Bar = ({ collapsed }) => {
           >
             Admin Dashboard
           </MenuItem>
-          <MenuItem
+          {/*<MenuItem
             component={<Link to="/admin-dashboard/accounts" className="link" />}
             icon={<AccountsIcon />}
           >
             Accounts
-          </MenuItem>
+          </MenuItem> */}
           {/* <MenuItem
             component={
               <Link to="/admin-dashboard/transactions" className="link" />
@@ -57,6 +57,12 @@ const Bar = ({ collapsed }) => {
             icon={<UserIcon />}
           >
             Users
+          </MenuItem>
+          <MenuItem
+            component={<Link to="/admin-dashboard/loans" className="link" />}
+            icon={<DBI />}
+          >
+            Loans
           </MenuItem>
           <MenuItem
             component={<Link to="/inbox" className="link" />}
@@ -79,7 +85,7 @@ const Bar = ({ collapsed }) => {
           <SubMenu
             label="Transfer"
             icon={<MoveMoney />}
-            disabled={!isActivated} // Disable submenu if not activated
+            disabled={!isActivated} // Disable submenu if not activated.
           >
             <MenuItem
               className="menu-item"
@@ -101,6 +107,13 @@ const Bar = ({ collapsed }) => {
               disabled={!isActivated}
             >
               e-Transfer
+            </MenuItem>
+            <MenuItem
+              className="menu-item"
+              component={<Link to="/credit" className="link" />}
+              disabled={!isActivated}
+            >
+              Credit
             </MenuItem>
           </SubMenu>
           <MenuItem
