@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
 import useFetchAccounts from "../../../Global/hooks/useFetchAccounts";
 import { serverIpAddress } from "../../../ServerIpAdd";
-import "./InternalTransferPage.css"; // Ensure CSS is imported
+import "./InternalTransferPage.css";
 
 const InternalTransferPage = () => {
   const { user } = useContext(IsLoggedInContext);

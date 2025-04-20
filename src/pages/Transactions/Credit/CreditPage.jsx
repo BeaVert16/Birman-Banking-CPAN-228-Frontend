@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../../ServerIpAdd";
+// Reuse the InternalTransferPage styles
 import "./CreditPage.css";
 
 export default function CreditPage() {
@@ -16,7 +17,6 @@ export default function CreditPage() {
 
   useEffect(() => {
     if (!token) return;
-
     setLoading(true);
     setMessage("");
     setError("");
@@ -26,13 +26,13 @@ export default function CreditPage() {
     })
       .then(async (res) => {
         if (!res.ok) {
-          const error = await res.text();
-          throw new Error(error || "Failed to fetch loans");
+          const err = await res.text();
+          throw new Error(err || "Failed to fetch loans");
         }
         return res.json();
       })
       .then((data) => setLoans(data))
-      .catch((err) => setError(err.message))
+      .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, [token, refreshCounter]);
 
@@ -40,13 +40,11 @@ export default function CreditPage() {
     e.preventDefault();
     setMessage("");
     setError("");
-
     const amt = parseFloat(applyAmount);
     if (isNaN(amt) || amt <= 0) {
       setError("Enter a valid positive amount");
       return;
     }
-
     try {
       const res = await fetch(`${serverIpAddress}/api/loans/request`, {
         method: "POST",
@@ -56,51 +54,48 @@ export default function CreditPage() {
         },
         body: JSON.stringify({ amount: amt.toString() }),
       });
-
       if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText || "Failed to apply for loan");
+        const err = await res.text();
+        throw new Error(err || "Failed to apply for loan");
       }
-
       const loan = await res.json();
-      setMessage(`Successfully requested $${loan.amountRequested}`);
+      setMessage(`Requested $${loan.amountRequested}`);
       setApplyAmount("");
       setRefreshCounter((c) => c + 1);
-    } catch (err) {
-      setError(err.message);
+    } catch (e) {
+      setError(e.message);
     }
   };
 
   const handlePay = async (loanId, amountStr) => {
     setMessage("");
     setError("");
-
     const amt = parseFloat(amountStr);
     if (isNaN(amt) || amt <= 0) {
       setError("Enter a valid payment amount");
       return;
     }
-
     try {
-      const res = await fetch(`${serverIpAddress}/api/loans/${loanId}/pay`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ amount: amt.toString() }),
-      });
-
+      const res = await fetch(
+        `${serverIpAddress}/api/loans/${loanId}/pay`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ amount: amt.toString() }),
+        }
+      );
       if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText || "Failed to make payment");
+        const err = await res.text();
+        throw new Error(err || "Payment failed");
       }
-
       await res.json();
-      setMessage(`Successfully paid $${amt.toFixed(2)} on your loan`);
+      setMessage(`Paid $${amt.toFixed(2)}`);
       setRefreshCounter((c) => c + 1);
-    } catch (err) {
-      setError(err.message);
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -108,29 +103,32 @@ export default function CreditPage() {
   const outstanding = loans.filter((l) => l.status === "AWAITING_PAYMENT");
 
   return (
-    <div className="credit-page">
-      <section className="apply-section">
-        <h2>Apply for Credit</h2>
-        <form onSubmit={handleApply} className="apply-form">
+    <div className="internal-transfer-page">
+      <div className="transfer-container">
+        <h2>Credit</h2>
+
+        {/* Application Form */}
+        <form onSubmit={handleApply}>
+          {loading && <p>Loading…</p>}
+          {error && <p className="alert-message error-message">{error}</p>}
+          {message && (
+            <p className="alert-message success-message">{message}</p>
+          )}
+          <label htmlFor="loan-amount">Amount to Borrow</label>
           <input
+            id="loan-amount"
             type="number"
             min="0.01"
             step="0.01"
-            placeholder="Amount to borrow"
+            placeholder="0.00"
             value={applyAmount}
             onChange={(e) => setApplyAmount(e.target.value)}
             required
           />
           <button type="submit">Submit Application</button>
         </form>
-      </section>
 
-      <section className="debts-section">
-        <h2>Your Loans</h2>
-        {loading && <p>Loading loans…</p>}
-        {error && <p className="error">{error}</p>}
-        {message && <p className="message">{message}</p>}
-
+        {/* Pending Loans */}
         <div className="loan-group">
           <h3>Pending Approval</h3>
           {pending.length === 0 ? (
@@ -147,6 +145,7 @@ export default function CreditPage() {
           )}
         </div>
 
+        {/* Outstanding Loans */}
         <div className="loan-group">
           <h3>Outstanding (Awaiting Payment)</h3>
           {outstanding.length === 0 ? (
@@ -156,7 +155,7 @@ export default function CreditPage() {
               {outstanding.map((l) => (
                 <li key={l.loanId} className="outstanding-loan">
                   <div>
-                    <strong>${l.amountOutstanding.toFixed(2)}</strong> remaining
+                    <strong>${l.amountOutstanding.toFixed(2)}</strong> remaining.
                   </div>
                   <div className="pay-form">
                     <input
@@ -167,12 +166,12 @@ export default function CreditPage() {
                       id={`pay-${l.loanId}`}
                     />
                     <button
-                      onClick={() => {
-                        const val = document.getElementById(
-                          `pay-${l.loanId}`
-                        ).value;
-                        handlePay(l.loanId, val);
-                      }}
+                      onClick={() =>
+                        handlePay(
+                          l.loanId,
+                          document.getElementById(`pay-${l.loanId}`).value
+                        )
+                      }
                     >
                       Pay
                     </button>
@@ -182,7 +181,7 @@ export default function CreditPage() {
             </ul>
           )}
         </div>
-      </section>
+      </div>
     </div>
   );
 }
