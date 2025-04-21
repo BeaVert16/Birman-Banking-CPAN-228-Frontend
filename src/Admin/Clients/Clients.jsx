@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
+import fetchApi from "../../Global/Utils/fetchApi";
+import useTokenCheck from "../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../Global/Loading/LoadingErrorHandler";
 import "./Clients.css";
 
 const Clients = () => {
@@ -8,6 +11,7 @@ const Clients = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { getToken } = useTokenCheck();
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -15,40 +19,25 @@ const Clients = () => {
       setLoading(true);
 
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Authentication token not found.");
-          navigate("/login");
-          return;
-        }
+        const token = getToken();
+        if (!token) return;
 
-        const response = await fetch(`${serverIpAddress}/api/admin/clients`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => null);
-          setError(errorData?.message || "Failed to fetch clients.");
-          if (response.status === 401) {
-            navigate("/login");
-          }
-          return;
-        }
-
-        const data = await response.json();
+        const data = await fetchApi(
+          `${serverIpAddress}/api/admin/clients`,
+          "GET",
+          null,
+          token
+        );
         setClients(data);
-      } catch (error) {
-        setError("A network error occurred: " + error.message);
+      } catch (err) {
+        setError(err.message || "Failed to fetch clients.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchClients();
-  }, [navigate]);
+  }, [getToken]);
 
   const handleEdit = (clientId) => {
     navigate(`/client/edit/${clientId}`);
@@ -61,76 +50,63 @@ const Clients = () => {
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(
+      await fetchApi(
         `${serverIpAddress}/api/admin/clients/${clientId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        "DELETE",
+        null,
+        token
       );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to delete client.");
-        if (response.status === 401) {
-          navigate("/login");
-        }
-        return;
-      }
 
       setClients((prevClients) =>
         prevClients.filter((client) => client.clientId !== clientId)
       );
-    } catch (error) {
-      setError("A network error occurred: " + error.message);
+    } catch (err) {
+      setError(err.message || "Failed to delete client.");
     }
   };
 
   return (
     <div className="clients-page">
       <h1>Clients</h1>
-      {loading && <p>Loading clients...</p>}
-      {error && <p className="error-message">{error}</p>}
-      {!loading && !error && clients.length === 0 && <p>No clients found.</p>}
-      <ul className="clients-list">
-        {clients.map((client) => (
-          <li key={client.clientId} className="client-item">
-            <div>
-              <strong>Client ID:</strong> {client.clientId}
-            </div>
-            {/* <div>
-              <strong>Name:</strong> {client.name}
-            </div> */}
-            {/* <button
-              onClick={() => handleEdit(client.clientId)}
-              className="edit-button"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(client.clientId)}
-              className="delete-button"
-            >
-              Delete
-            </button> */}
-          </li>
-        ))}
-      </ul>
-      {/* <button
+      <LoadingErrorHandler loading={loading} error={error}>
+        {clients.length === 0 ? (
+          <p>No clients found.</p>
+        ) : (
+          <ul className="clients-list">
+            {clients.map((client) => (
+              <li key={client.clientId} className="client-item">
+                <div>
+                  <strong>Client ID:</strong> {client.clientId}
+                </div>
+                <div>
+                  <strong>Name:</strong> {client.name}
+                </div>
+                <button
+                  onClick={() => handleEdit(client.clientId)}
+                  className="edit-button"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(client.clientId)}
+                  className="delete-button"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </LoadingErrorHandler>
+      <button
         onClick={() => navigate("/client/add")}
         className="create-client-button"
       >
         Create New Client
-      </button> */}
+      </button>
     </div>
   );
 };

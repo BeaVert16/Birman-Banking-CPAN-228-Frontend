@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { serverIpAddress } from "../../ServerIpAdd";
+import fetchApi from "../../Global/Utils/fetchApi";
+import useTokenCheck from "../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../Global/Loading/LoadingErrorHandler";
 import "./User.css";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const { getToken } = useTokenCheck();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -15,40 +17,25 @@ const Users = () => {
       setLoading(true);
 
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Authentication token not found.");
-          navigate("/login");
-          return;
-        }
+        const token = getToken();
+        if (!token) return;
 
-        const response = await fetch(`${serverIpAddress}/api/admin/users`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => null);
-          setError(errorData?.message || "Failed to fetch users.");
-          if (response.status === 401) {
-            navigate("/login");
-          }
-          return;
-        }
-
-        const data = await response.json();
+        const data = await fetchApi(
+          `${serverIpAddress}/api/admin/users`,
+          "GET",
+          null,
+          token
+        );
         setUsers(data);
-      } catch (error) {
-        setError("A network error occurred: " + error.message);
+      } catch (err) {
+        setError(err.message || "Failed to fetch users.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchUsers();
-  }, [navigate]);
+  }, [getToken]);
 
   const handleDelete = async (cardNumber) => {
     const confirmDelete = window.confirm(
@@ -57,37 +44,21 @@ const Users = () => {
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(
+      await fetchApi(
         `${serverIpAddress}/api/admin/users/${cardNumber}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        "DELETE",
+        null,
+        token
       );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to delete user.");
-        if (response.status === 401) {
-          navigate("/login");
-        }
-        return;
-      }
 
       setUsers((prevUsers) =>
         prevUsers.filter((user) => user.cardNumber !== cardNumber)
       );
-    } catch (error) {
-      setError("A network error occurred: " + error.message);
+    } catch (err) {
+      setError(err.message || "Failed to delete user.");
     }
   };
 
@@ -101,63 +72,53 @@ const Users = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(`${serverIpAddress}/api/admin/create-admin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ cardNumber, password }),
-      });
+      const newAdmin = await fetchApi(
+        `${serverIpAddress}/api/admin/create-admin`,
+        "POST",
+        { cardNumber, password },
+        token
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to create admin.");
-        return;
-      }
-
-      const newAdmin = await response.json();
       setUsers((prevUsers) => [...prevUsers, newAdmin]);
       alert("Admin created successfully.");
-    } catch (error) {
-      setError("A network error occurred: " + error.message);
+    } catch (err) {
+      setError(err.message || "Failed to create admin.");
     }
   };
 
   return (
     <div className="users-page">
       <h1>Users</h1>
-      {loading && <p>Loading users...</p>}
-      {error && <p className="error-message">{error}</p>}
-      {!loading && !error && users.length === 0 && <p>No users found.</p>}
-      <ul className="users-list">
-        {users.map((user) => (
-          <li key={user.cardNumber} className="user-item">
-            <div>
-              <strong>Card Number:</strong> {user.cardNumber}
-            </div>
-            <div>
-              <strong>Role:</strong> {user.role}
-            </div>
-            <button
-              onClick={() => handleDelete(user.cardNumber)}
-              className="delete-button"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-      {/* <button onClick={handleCreateAdmin} className="create-admin-button">
+      <LoadingErrorHandler loading={loading} error={error}>
+        {users.length === 0 ? (
+          <p>No users found.</p>
+        ) : (
+          <ul className="users-list">
+            {users.map((user) => (
+              <li key={user.cardNumber} className="user-item">
+                <div>
+                  <strong>Card Number:</strong> {user.cardNumber}
+                </div>
+                <div>
+                  <strong>Role:</strong> {user.role}
+                </div>
+                <button
+                  onClick={() => handleDelete(user.cardNumber)}
+                  className="delete-button"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </LoadingErrorHandler>
+      <button onClick={handleCreateAdmin} className="create-admin-button">
         Create Admin
-      </button> */}
+      </button>
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { serverIpAddress } from "../../../ServerIpAdd";
+import fetchApi from "../../../Global/Utils/fetchApi";
+import useTokenCheck from "../../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 import "./AddAccountAdmin.css";
 
 const AddAccountAdmin = () => {
@@ -11,35 +14,25 @@ const AddAccountAdmin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { accountId } = useParams(); // Get accountId from URL if in edit mode
+  const { getToken } = useTokenCheck();
   const isEditMode = !!accountId; // Determine if the page is in edit mode
 
   useEffect(() => {
     if (isEditMode) {
       // Fetch account details if in edit mode
       const fetchAccountDetails = async () => {
+        setLoading(true);
+        setError("");
         try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            setError("Authentication token not found.");
-            navigate("/login");
-            return;
-          }
-          const response = await fetch(
+          const token = getToken();
+          if (!token) return;
+
+          const data = await fetchApi(
             `${serverIpAddress}/api/admin/accounts/${accountId}`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+            "GET",
+            null,
+            token
           );
-
-          if (!response.ok) {
-            setError("Failed to fetch account details.");
-            return;
-          }
-
-          const data = await response.json();
           setAccountName(data.accountName);
           setAccountType(data.accountType); // Keep account type but disable editing
         } catch (e) {
@@ -47,12 +40,14 @@ const AddAccountAdmin = () => {
             "A network error occurred while fetching account details: " +
               e.message
           );
+        } finally {
+          setLoading(false);
         }
       };
 
       fetchAccountDetails();
     }
-  }, [isEditMode, accountId, navigate]);
+  }, [isEditMode, accountId, getToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,41 +62,22 @@ const AddAccountAdmin = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(
-        isEditMode
-          ? `${serverIpAddress}/api/admin/accounts/${accountId}`
-          : `${serverIpAddress}/api/admin/accounts`,
-        {
-          method: isEditMode ? "PUT" : "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            accountName,
-            ...(isEditMode ? {} : { accountType }),
-          }),
-        }
-      );
+      const endpoint = isEditMode
+        ? `${serverIpAddress}/api/admin/accounts/${accountId}`
+        : `${serverIpAddress}/api/admin/accounts`;
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to process the request.");
-        if (response.status === 401) {
-          navigate("/login");
-        }
-        return;
-      }
+      const method = isEditMode ? "PUT" : "POST";
+      const body = {
+        accountName,
+        ...(isEditMode ? {} : { accountType }),
+      };
 
-      const data = await response.json().catch(() => null);
-      navigate("/account", {
+      const data = await fetchApi(endpoint, method, body, token);
+
+      navigate("/admin-dashboard/accounts", {
         state: {
           message: isEditMode
             ? "Account updated successfully."
@@ -121,30 +97,17 @@ const AddAccountAdmin = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(
+      await fetchApi(
         `${serverIpAddress}/api/admin/accounts/${accountId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        "DELETE",
+        null,
+        token
       );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to delete the account.");
-        return;
-      }
-
-      navigate("/account", {
+      navigate("/admin-dashboard/accounts", {
         state: { message: "Account deleted successfully." },
       });
     } catch (e) {
@@ -155,52 +118,56 @@ const AddAccountAdmin = () => {
   return (
     <div className="create-account-page">
       <h2>{isEditMode ? "Edit Account" : "Create a New Account"}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="accountName">Account Name:</label>
-          <input
-            type="text"
-            id="accountName"
-            value={accountName}
-            onChange={(e) => setAccountName(e.target.value)}
-            required
-          />
-        </div>
-        {!isEditMode && (
+      <LoadingErrorHandler loading={loading} error={error}>
+        <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="accountType">Account Type:</label>
-            <select
-              id="accountType"
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
-            >
-              <option value="Chequing">Chequing</option>
-              <option value="Savings">Savings</option>
-            </select>
+            <label htmlFor="accountName">Account Name:</label>
+            <input
+              type="text"
+              id="accountName"
+              value={accountName}
+              onChange={(e) => setAccountName(e.target.value)}
+              required
+            />
           </div>
+          {!isEditMode && (
+            <div>
+              <label htmlFor="accountType">Account Type:</label>
+              <select
+                id="accountType"
+                value={accountType}
+                onChange={(e) => setAccountType(e.target.value)}
+              >
+                <option value="Chequing">Chequing</option>
+                <option value="Savings">Savings</option>
+              </select>
+            </div>
+          )}
+          <button type="submit" disabled={loading}>
+            {loading
+              ? isEditMode
+                ? "Updating..."
+                : "Creating..."
+              : isEditMode
+              ? "Update Account"
+              : "Create Account"}
+          </button>
+        </form>
+        {isEditMode && (
+          <button
+            onClick={handleDelete}
+            className="delete-account-button"
+            disabled={loading}
+          >
+            Delete Account
+          </button>
         )}
-        <button type="submit" disabled={loading}>
-          {loading
-            ? isEditMode
-              ? "Updating..."
-              : "Creating..."
-            : isEditMode
-            ? "Update Account"
-            : "Create Account"}
-        </button>
-      </form>
-      {isEditMode && (
-        <button
-          onClick={handleDelete}
-          className="delete-account-button"
-          disabled={loading}
-        >
-          Delete Account
-        </button>
-      )}
-      {message && <p className="success-message">{message}</p>}
-      {error && <p className="error-message">{error}</p>}
-      <button onClick={() => navigate("/admin-dashboard/accounts")} className="back-button">
+        {message && <p className="success-message">{message}</p>}
+      </LoadingErrorHandler>
+      <button
+        onClick={() => navigate("/admin-dashboard/accounts")}
+        className="back-button"
+      >
         &larr; Back to Accounts
       </button>
     </div>

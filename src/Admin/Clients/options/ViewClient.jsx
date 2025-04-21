@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { serverIpAddress } from "../../ServerIpAdd";
+import { serverIpAddress } from "../../../ServerIpAdd";
+import fetchApi from "../../../Global/Utils/fetchApi";
+import useTokenCheck from "../../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 
 const ViewClient = () => {
   const { clientId } = useParams();
@@ -8,6 +11,7 @@ const ViewClient = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { getToken } = useTokenCheck();
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -15,60 +19,43 @@ const ViewClient = () => {
       setLoading(true);
 
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Authentication token not found.");
-          navigate("/login");
-          return;
-        }
+        const token = getToken();
+        if (!token) return;
 
-        const response = await fetch(
+        const data = await fetchApi(
           `${serverIpAddress}/api/admin/clients/${clientId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          "GET",
+          null,
+          token
         );
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => null);
-          setError(errorData?.message || "Failed to fetch client details.");
-          if (response.status === 401) {
-            navigate("/login");
-          }
-          return;
-        }
-
-        const data = await response.json();
         setClient(data);
-      } catch (error) {
-        setError("A network error occurred: " + error.message);
+      } catch (err) {
+        setError(err.message || "Failed to fetch client details.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchClient();
-  }, [clientId, navigate]);
+  }, [clientId, getToken]);
 
   return (
     <div className="view-client-page">
       <h1>View Client</h1>
-      {loading && <p>Loading client details...</p>}
-      {error && <p className="error-message">{error}</p>}
-      {client && (
-        <div>
-          <p>
-            <strong>Client ID:</strong> {client.clientId}
-          </p>
-          <p>
-            <strong>Name:</strong> {client.name}
-          </p>
-        </div>
-      )}
-      <button onClick={() => navigate("/clients")}>Back to Clients</button>
+      <LoadingErrorHandler loading={loading} error={error}>
+        {client && (
+          <div>
+            <p>
+              <strong>Client ID:</strong> {client.clientId}
+            </p>
+            <p>
+              <strong>Name:</strong> {client.name}
+            </p>
+          </div>
+        )}
+        <button onClick={() => navigate("/clients")}>Back to Clients</button>
+      </LoadingErrorHandler>
     </div>
   );
 };

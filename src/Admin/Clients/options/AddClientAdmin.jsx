@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { serverIpAddress } from "../../ServerIpAdd";
+import { serverIpAddress } from "../../../ServerIpAdd";
+import fetchApi from "../../../Global/Utils/fetchApi";
+import useTokenCheck from "../../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 
-const AddClient = () => {
+const AddClientAdmin = () => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { getToken } = useTokenCheck();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,34 +18,19 @@ const AddClient = () => {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication token not found.");
-        navigate("/login");
-        return;
-      }
+      const token = getToken();
+      if (!token) return;
 
-      const response = await fetch(`${serverIpAddress}/api/admin/clients`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        setError(errorData?.message || "Failed to add client.");
-        if (response.status === 401) {
-          navigate("/login");
-        }
-        return;
-      }
+      await fetchApi(
+        `${serverIpAddress}/api/admin/clients`,
+        "POST",
+        { name },
+        token
+      );
 
       navigate("/clients");
-    } catch (error) {
-      setError("A network error occurred: " + error.message);
+    } catch (err) {
+      setError(err.message || "Failed to add client.");
     } finally {
       setLoading(false);
     }
@@ -50,24 +39,25 @@ const AddClient = () => {
   return (
     <div className="add-client-page">
       <h1>Add Client</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Adding..." : "Add Client"}
-        </button>
-      </form>
+      <LoadingErrorHandler loading={loading} error={error}>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Add Client"}
+          </button>
+        </form>
+      </LoadingErrorHandler>
     </div>
   );
 };
 
-export default AddClient;
+export default AddClientAdmin;
