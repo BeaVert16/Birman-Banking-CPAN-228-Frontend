@@ -1,23 +1,18 @@
-.internal-transfer-page { /* Renamed */
+.credit-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: calc(100vh - 60px);
   padding-top: 40px;
-  background-color: #f8f9fa;
-  font-family: "Roboto", sans-serif;
 }
 
-.internal-transfer-page .transfer-container { /* Updated selector */
+.credit-card {
   width: 100%;
   max-width: 550px;
   padding: 35px;
-  background-color: #ffffff;
+  background-color: #f4f2f2;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
 }
 
-.internal-transfer-page .transfer-container h2 { /* Updated selector */
+.credit-card h2 {
   text-align: center;
   color: #212529;
   margin-bottom: 30px;
@@ -25,24 +20,22 @@
   font-weight: 700;
 }
 
-.internal-transfer-page form { /* Updated selector */
+.credit-form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
-.internal-transfer-page label { /* Updated selector */
+.credit-form label {
   font-weight: 600;
   color: #495057;
   margin-bottom: 6px;
   display: block;
 }
 
-.internal-transfer-page select, /* Updated selector */
-.internal-transfer-page input[type="text"], /* Updated selector */
-.internal-transfer-page input[type="number"] { /* Updated selector */
+.credit-form input[type="number"] {
   width: 100%;
-  padding: 14px 16px;
+  padding: 14px 16px 14px 36px; /* Add padding for the $ sign */
   border: 1px solid #ced4da;
   border-radius: 8px;
   font-size: 1rem;
@@ -52,19 +45,30 @@
   box-sizing: border-box;
 }
 
-.internal-transfer-page select:focus, /* Updated selector */
-.internal-transfer-page input[type="text"]:focus, /* Updated selector */
-.internal-transfer-page input[type="number"]:focus { /* Updated selector */
+.credit-form input[type="number"]:focus {
   outline: none;
   border-color: #0d6efd;
   box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
 }
 
-.internal-transfer-page input::placeholder { /* Updated selector */
+.credit-form input::placeholder {
   color: #6c757d;
 }
 
-.internal-transfer-page button { /* Updated selector */
+.credit-form .input-with-dollar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.credit-form .input-with-dollar span {
+  position: absolute;
+  left: 12px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.credit-form button {
   padding: 14px 22px;
   background-color: #3182ce;
   color: white;
@@ -77,15 +81,15 @@
   margin-top: 15px;
 }
 
-.internal-transfer-page button:hover { /* Updated selector */
+.credit-form button:hover {
   background-color: #2b6cb0;
 }
 
-.internal-transfer-page button:active { /* Updated selector */
+.credit-form button:active {
   transform: scale(0.97);
 }
 
-.internal-transfer-page .alert-message { /* Updated selector */
+.credit-message {
   font-weight: 500;
   text-align: center;
   padding: 14px;
@@ -95,24 +99,80 @@
   border-style: solid;
 }
 
-.internal-transfer-page .success-message { /* Updated selector */
+.credit-message.success {
   color: #0f5132;
   background-color: #d1e7dd;
   border-color: #badbcc;
 }
 
-.internal-transfer-page .error-message { /* Updated selector */
+.credit-message.error {
   color: #842029;
   background-color: #f8d7da;
   border-color: #f5c2c7;
 }
 
-.internal-transfer-page input[type="number"]::-webkit-outer-spin-button, /* Updated selector */
-.internal-transfer-page input[type="number"]::-webkit-inner-spin-button { /* Updated selector */
-  -webkit-appearance: none;
-  margin: 0;
+.credit-loan-group {
+  margin-top: 30px;
 }
 
-.internal-transfer-page input[type="number"] { /* Updated selector */
-  -moz-appearance: textfield;
+.credit-loan-group h3 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.credit-loan-group ul {
+  list-style: none;
+  padding: 0;
+}
+
+.credit-loan-group li {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+}
+
+.credit-loan-group .pay-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.credit-loan-group .pay-form input {
+  flex: 1;
+  padding: 10px 16px 10px 36px; /* Add padding for the $ sign */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f1f3f5;
+  color: #495057;
+}
+
+.credit-loan-group .pay-form input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+}
+
+.credit-loan-group .pay-form button {
+  padding: 10px 16px;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.credit-loan-group .pay-form button:hover {
+  background-color: #2b6cb0;
+}
+
+.credit-loan-group .pay-form button:active {
+  transform: scale(0.97);
 }

@@ -1,118 +1,130 @@
-.e-transfer-page {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: calc(100vh - 60px);
-    padding-top: 40px;
-    background-color: #f8f9fa;
-    font-family: "Roboto", sans-serif;
-  }
-  
-  .e-transfer-page .transfer-container {
-    width: 100%;
-    max-width: 550px;
-    padding: 35px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
-  }
-  
-  .e-transfer-page .transfer-container h2 {
-    text-align: center;
-    color: #212529;
-    margin-bottom: 30px;
-    font-size: 1.8rem;
-    font-weight: 700;
-  }
-  
-  .e-transfer-page form {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-  
-  .e-transfer-page label {
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 6px;
-    display: block;
-  }
-  
-  .e-transfer-page select,
-  .e-transfer-page input[type="text"],
-  .e-transfer-page input[type="number"] {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: #f1f3f5;
-    color: #495057;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
-  }
-  
-  .e-transfer-page select:focus,
-  .e-transfer-page input[type="text"]:focus,
-  .e-transfer-page input[type="number"]:focus {
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
-  }
-  
-  .e-transfer-page input::placeholder {
-    color: #6c757d;
-  }
-  
-  .e-transfer-page button {
-    padding: 14px 22px;
-    background-color: #3182ce;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    margin-top: 15px;
-  }
-  
-  .e-transfer-page button:hover {
-    background-color: #2b6cb0;
-  }
-  
-  .e-transfer-page button:active {
-    transform: scale(0.97);
-  }
-  
-  .e-transfer-page .alert-message {
-    font-weight: 500;
-    text-align: center;
-    padding: 14px;
-    border-radius: 8px;
-    margin-top: 25px;
-    border-width: 1px;
-    border-style: solid;
-  }
-  
-  .e-transfer-page .success-message {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
-  }
-  
-  .e-transfer-page .error-message {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
-  }
-  
-  .e-transfer-page input[type="number"]::-webkit-outer-spin-button,
-  .e-transfer-page input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  .e-transfer-page input[type="number"] {
-    -moz-appearance: textfield;
-  }
+.e-transfer-container {
+  display: flex;
+  padding-top: 40px;
+}
+
+.e-transfer-card {
+  width: 100%;
+  max-width: 550px;
+  padding: 35px;
+  background-color: #f4f2f2;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+.e-transfer-card h2 {
+  text-align: center;
+  color: #212529;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.e-transfer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.e-transfer-form label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.e-transfer-form select,
+.e-transfer-form input[type="text"],
+.e-transfer-form input[type="number"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f1f3f5;
+  color: #495057;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.e-transfer-form select:focus,
+.e-transfer-form input[type="text"]:focus,
+.e-transfer-form input[type="number"]:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+}
+
+.e-transfer-form input::placeholder {
+  color: #6c757d;
+}
+
+.e-transfer-form .input-with-dollar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.e-transfer-form .input-with-dollar span {
+  position: absolute;
+  left: 12px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.e-transfer-form input[type="number"] {
+  padding: 14px 16px 14px 36px; /* Add padding to make space for the $ sign */
+}
+
+.e-transfer-form button {
+  padding: 14px 22px;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 15px;
+}
+
+.e-transfer-form button:hover {
+  background-color: #2b6cb0;
+}
+
+.e-transfer-form button:active {
+  transform: scale(0.97);
+}
+
+.e-transfer-message {
+  font-weight: 500;
+  text-align: center;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 25px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.e-transfer-message.success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.e-transfer-message.error {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+.e-transfer-form input[type="number"]::-webkit-outer-spin-button,
+.e-transfer-form input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.e-transfer-form input[type="number"] {
+  -moz-appearance: textfield;
+}

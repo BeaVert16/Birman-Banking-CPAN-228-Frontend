@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../../ServerIpAdd";
-// Reuse the InternalTransferPage styles
+import fetchApi from "../../../Global/Utils/fetchApi";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 import "./CreditPage.css";
 
 export default function CreditPage() {
@@ -16,24 +17,28 @@ export default function CreditPage() {
   const [refreshCounter, setRefreshCounter] = useState(0);
 
   useEffect(() => {
-    if (!token) return;
-    setLoading(true);
-    setMessage("");
-    setError("");
+    const fetchLoans = async () => {
+      if (!token) return;
+      setLoading(true);
+      setMessage("");
+      setError("");
 
-    fetch(`${serverIpAddress}/api/loans`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const err = await res.text();
-          throw new Error(err || "Failed to fetch loans");
-        }
-        return res.json();
-      })
-      .then((data) => setLoans(data))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      try {
+        const data = await fetchApi(
+          `${serverIpAddress}/api/loans`,
+          "GET",
+          null,
+          token
+        );
+        setLoans(data);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLoans();
   }, [token, refreshCounter]);
 
   const handleApply = async (e) => {
@@ -45,20 +50,14 @@ export default function CreditPage() {
       setError("Enter a valid positive amount");
       return;
     }
+
     try {
-      const res = await fetch(`${serverIpAddress}/api/loans/request`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ amount: amt.toString() }),
-      });
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err || "Failed to apply for loan");
-      }
-      const loan = await res.json();
+      const loan = await fetchApi(
+        `${serverIpAddress}/api/loans/request`,
+        "POST",
+        { amount: amt.toString() },
+        token
+      );
       setMessage(`Requested $${loan.amountRequested}`);
       setApplyAmount("");
       setRefreshCounter((c) => c + 1);
@@ -75,23 +74,14 @@ export default function CreditPage() {
       setError("Enter a valid payment amount");
       return;
     }
+
     try {
-      const res = await fetch(
+      await fetchApi(
         `${serverIpAddress}/api/loans/${loanId}/pay`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ amount: amt.toString() }),
-        }
+        "POST",
+        { amount: amt.toString() },
+        token
       );
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err || "Payment failed");
-      }
-      await res.json();
       setMessage(`Paid $${amt.toFixed(2)}`);
       setRefreshCounter((c) => c + 1);
     } catch (e) {
@@ -103,84 +93,89 @@ export default function CreditPage() {
   const outstanding = loans.filter((l) => l.status === "AWAITING_PAYMENT");
 
   return (
-    <div className="internal-transfer-page">
-      <div className="transfer-container">
+    <div className="credit-container">
+      <div className="credit-card">
         <h2>Credit</h2>
+        <LoadingErrorHandler loading={loading} error={error}>
+          {/* Application Form */}
+          <form className="credit-form" onSubmit={handleApply}>
+            {message && <p className="credit-message success">{message}</p>}
+            {error && <p className="credit-message error">{error}</p>}
+            <label htmlFor="loan-amount">Amount to Borrow</label>
+            <div className="input-with-dollar">
+              <span>$</span>
+              <input
+                id="loan-amount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+                value={applyAmount}
+                onChange={(e) => setApplyAmount(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit">Submit Application</button>
+          </form>
 
-        {/* Application Form */}
-        <form onSubmit={handleApply}>
-          {loading && <p>Loading…</p>}
-          {error && <p className="alert-message error-message">{error}</p>}
-          {message && (
-            <p className="alert-message success-message">{message}</p>
-          )}
-          <label htmlFor="loan-amount">Amount to Borrow</label>
-          <input
-            id="loan-amount"
-            type="number"
-            min="0.01"
-            step="0.01"
-            placeholder="0.00"
-            value={applyAmount}
-            onChange={(e) => setApplyAmount(e.target.value)}
-            required
-          />
-          <button type="submit">Submit Application</button>
-        </form>
+          {/* Pending Loans */}
+          <div className="credit-loan-group">
+            <h3>Pending Approval</h3>
+            {pending.length === 0 ? (
+              <p>None</p>
+            ) : (
+              <ul>
+                {pending.map((l) => (
+                  <li key={l.loanId}>
+                    ${l.amountRequested.toFixed(2)} — requested on{" "}
+                    {new Date(l.loanDate).toLocaleDateString()}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-        {/* Pending Loans */}
-        <div className="loan-group">
-          <h3>Pending Approval</h3>
-          {pending.length === 0 ? (
-            <p>None</p>
-          ) : (
-            <ul>
-              {pending.map((l) => (
-                <li key={l.loanId}>
-                  ${l.amountRequested.toFixed(2)} — requested on{" "}
-                  {new Date(l.loanDate).toLocaleDateString()}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Outstanding Loans */}
-        <div className="loan-group">
-          <h3>Outstanding (Awaiting Payment)</h3>
-          {outstanding.length === 0 ? (
-            <p>None</p>
-          ) : (
-            <ul>
-              {outstanding.map((l) => (
-                <li key={l.loanId} className="outstanding-loan">
-                  <div>
-                    <strong>${l.amountOutstanding.toFixed(2)}</strong> remaining.
-                  </div>
-                  <div className="pay-form">
-                    <input
-                      type="number"
-                      min="0.01"
-                      step="0.01"
-                      placeholder="Pay amount"
-                      id={`pay-${l.loanId}`}
-                    />
-                    <button
-                      onClick={() =>
-                        handlePay(
-                          l.loanId,
-                          document.getElementById(`pay-${l.loanId}`).value
-                        )
-                      }
-                    >
-                      Pay
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+          {/* Outstanding Loans */}
+          <div className="credit-loan-group">
+            <h3>Outstanding (Awaiting Payment)</h3>
+            {outstanding.length === 0 ? (
+              <p>None</p>
+            ) : (
+              <ul>
+                {outstanding.map((l) => (
+                  <li key={l.loanId} className="outstanding-loan">
+                    <div>
+                      <strong>${l.amountOutstanding.toFixed(2)}</strong>{" "}
+                      remaining.
+                    </div>
+                    <div className="pay-form">
+                      <div className="input-with-dollar">
+                        <span>$</span>
+                        <input
+                          type="number"
+                          min="0.01"
+                          step="0.01"
+                          placeholder="Pay amount"
+                          id={`pay-${l.loanId}`}
+                        />
+                      </div>
+                      <button
+                        onClick={() =>
+                          handlePay(
+                            l.loanId,
+                            document.getElementById(`pay-${l.loanId}`).value
+                          )
+                        }
+                      >
+                        Pay
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </LoadingErrorHandler>
       </div>
     </div>
   );

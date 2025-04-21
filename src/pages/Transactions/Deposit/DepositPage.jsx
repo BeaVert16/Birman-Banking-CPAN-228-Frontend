@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
 import useFetchAccounts from "../../../Global/hooks/useFetchAccounts";
 import { serverIpAddress } from "../../../ServerIpAdd";
+import fetchApi from "../../../Global/Utils/fetchApi";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 import "./DepositPage.css";
 
 const DepositPage = () => {
   const { user } = useContext(IsLoggedInContext);
-  const { accounts, error: fetchError } = useFetchAccounts(user);
+  const { accounts, error: fetchError, loading } = useFetchAccounts(user);
   const [selectedAccountId, setSelectedAccountId] = useState("");
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
@@ -24,33 +26,24 @@ const DepositPage = () => {
       return;
     }
 
-    const depositRequest = {
-      accountId: selectedAccountId,
-      amount: parseFloat(amount),
-    };
-
     try {
-      const response = await fetch(
+      const depositRequest = {
+        accountId: selectedAccountId,
+        amount: parseFloat(amount),
+      };
+
+      const result = await fetchApi(
         `${serverIpAddress}/api/transactions/deposit`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify(depositRequest),
-        }
+        "POST",
+        depositRequest,
+        user.token
       );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Deposit failed");
-      }
-
-      setMessage(result.message);
+      setMessage(result.message || "Deposit successful!");
+      setAmount("");
+      setSelectedAccountId("");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Deposit failed. Please try again.");
     }
   };
 
@@ -78,33 +71,34 @@ const DepositPage = () => {
   );
 
   return (
-    <div className="deposit-page">
-      <div className="transaction-page">
+    <div className="deposit-container">
+      <div className="deposit-card">
         <h2>Deposit Money</h2>
-        <form onSubmit={handleDeposit}>
-          {fetchError && <p className="error-message">{fetchError}</p>}
-          <AccountDropdown
-            accounts={accounts}
-            selectedAccountId={selectedAccountId}
-            setSelectedAccountId={setSelectedAccountId}
-          />
-          <div>
-            <label htmlFor="deposit-amount">Deposit Amount:</label>
-            <div className="input-with-dollar">
-              <span>$</span>
-              <input
-                id="deposit-amount"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-              />
+        <LoadingErrorHandler loading={loading} error={fetchError}>
+          <form className="deposit-form" onSubmit={handleDeposit}>
+            <AccountDropdown
+              accounts={accounts}
+              selectedAccountId={selectedAccountId}
+              setSelectedAccountId={setSelectedAccountId}
+            />
+            <div>
+              <label htmlFor="deposit-amount">Deposit Amount:</label>
+              <div className="input-with-dollar">
+                <span>$</span>
+                <input
+                  id="deposit-amount"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <button type="submit">Deposit</button>
-        </form>
-        {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
+            <button type="submit">Deposit</button>
+          </form>
+          {message && <p className="deposit-message success">{message}</p>}
+          {error && <p className="deposit-message error">{error}</p>}
+        </LoadingErrorHandler>
       </div>
     </div>
   );

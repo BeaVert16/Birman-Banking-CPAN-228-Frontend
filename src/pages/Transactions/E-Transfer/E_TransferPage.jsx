@@ -2,11 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
 import useFetchAccounts from "../../../Global/hooks/useFetchAccounts";
 import { serverIpAddress } from "../../../ServerIpAdd";
+import fetchApi from "../../../Global/Utils/fetchApi";
+import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 import "./E_TransferPage.css";
 
 const E_TransferPage = () => {
   const { user } = useContext(IsLoggedInContext);
-  const { accounts, error: fetchError } = useFetchAccounts(user);
+  const { accounts, error: fetchError, loading } = useFetchAccounts(user);
 
   const [selectedAccountId, setSelectedAccountId] = useState("");
   const [recipientPhoneNumber, setRecipientPhoneNumber] = useState("");
@@ -49,13 +51,7 @@ const E_TransferPage = () => {
     // Show warning only once for large transfers
     if (parseFloat(amount) >= 500 && !warningAcknowledged) {
       setError(
-        <>
-          Warning: Transfers of $500 or more may be scams. Please confirm the
-          recipient’s details.{" "}
-          <a href="#" onClick={(e) => e.preventDefault()}>
-            Learn more
-          </a>
-        </>
+        "Warning: Transfers of $500 or more may be scams. Please confirm the recipient’s details."
       );
       setIsButtonDisabled(true);
       setCountdown(7);
@@ -70,29 +66,25 @@ const E_TransferPage = () => {
     };
 
     try {
-      const response = await fetch(
+      const result = await fetchApi(
         `${serverIpAddress}/api/transactions/transfer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify(transferRequest),
-        }
+        "POST",
+        transferRequest,
+        user.token
       );
 
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Transfer failed");
-
-      setMessage(result.message);
+      setMessage(result.message || "Transfer successful!");
       setWarningAcknowledged(false); // Reset for next transfer
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Transfer failed. Please try again.");
     }
   };
 
-  const AccountDropdown = ({ accounts, selectedAccountId, setSelectedAccountId }) => (
+  const AccountDropdown = ({
+    accounts,
+    selectedAccountId,
+    setSelectedAccountId,
+  }) => (
     <div>
       <label htmlFor="account-select">From Account:</label>
       <select
@@ -112,48 +104,52 @@ const E_TransferPage = () => {
   );
 
   return (
-    <div className="e-transfer-page">
-      <div className="transfer-container">
+    <div className="e-transfer-container">
+      <div className="e-transfer-card">
         <h2>Transfer Money</h2>
-        <form onSubmit={handleTransfer}>
-          {fetchError && <p className="alert-message error-message">{fetchError}</p>}
-          <AccountDropdown
-            accounts={accounts}
-            selectedAccountId={selectedAccountId}
-            setSelectedAccountId={setSelectedAccountId}
-          />
-          <div>
-            <label htmlFor="recipient-phone">Recipient Phone Number:</label>
-            <input
-              id="recipient-phone"
-              type="text"
-              value={recipientPhoneNumber}
-              onChange={(e) => setRecipientPhoneNumber(e.target.value)}
-              placeholder="e.g., 123-456-7890"
-              maxLength="10"
-              minLength="10"
-              required
+        <LoadingErrorHandler loading={loading} error={fetchError}>
+          <form className="e-transfer-form" onSubmit={handleTransfer}>
+            <AccountDropdown
+              accounts={accounts}
+              selectedAccountId={selectedAccountId}
+              setSelectedAccountId={setSelectedAccountId}
             />
-          </div>
-          <div>
-            <label htmlFor="transfer-amount">Amount:</label>
-            <input
-              id="transfer-amount"
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="0.00"
-              min="0.01"
-              step="0.01"
-              required
-            />
-          </div>
-          <button type="submit" disabled={isButtonDisabled}>
-            {isButtonDisabled ? `Wait ${countdown}s` : "Transfer"}
-          </button>
-        </form>
-        {message && <p className="alert-message success-message">{message}</p>}
-        {error && <p className="alert-message error-message">{error}</p>}
+            <div>
+              <label htmlFor="recipient-phone">Recipient Phone Number:</label>
+              <input
+                id="recipient-phone"
+                type="text"
+                value={recipientPhoneNumber}
+                onChange={(e) => setRecipientPhoneNumber(e.target.value)}
+                placeholder="Phone Number"
+                maxLength="10"
+                minLength="10"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="transfer-amount">Amount:</label>
+              <div className="input-with-dollar">
+                <span>$</span>
+                <input
+                  id="transfer-amount"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="0.00"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+            <button type="submit" disabled={isButtonDisabled}>
+              {isButtonDisabled ? `Wait ${countdown}s` : "Transfer"}
+            </button>
+          </form>
+          {message && <p className="e-transfer-message success">{message}</p>}
+          {error && <p className="e-transfer-message error">{error}</p>}
+        </LoadingErrorHandler>
       </div>
     </div>
   );

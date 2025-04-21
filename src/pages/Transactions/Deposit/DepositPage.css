@@ -1,147 +1,122 @@
-.deposit-page {
+.deposit-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: calc(100vh - 60px);
   padding-top: 40px;
-  background-color: #f7f8fc;
 }
 
-.deposit-page .transaction-page {
+.deposit-card {
   width: 100%;
-  max-width: 500px;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  max-width: 550px;
+  padding: 35px;
+  background-color: #f4f2f2;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
 }
 
-.deposit-page .transaction-page h2 {
+.deposit-card h2 {
   text-align: center;
-  color: #1a202c;
-  margin-bottom: 25px;
-  font-size: 1.75rem;
-  font-weight: 600;
+  color: #212529;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
-.deposit-page form {
+.deposit-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
-.deposit-page label {
-  font-weight: 500;
-  color: #4a5568;
-  margin-bottom: 5px;
+.deposit-form label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 6px;
   display: block;
 }
 
-.deposit-page select,
-.deposit-page input[type="number"] {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+.deposit-form .input-with-dollar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.deposit-form .input-with-dollar span {
+  position: absolute;
+  left: 12px;
   font-size: 1rem;
-  background-color: #fdfdfe;
-  color: #2d3748;
+  color: #495057;
+}
+
+.deposit-form input[type="number"] {
+  width: 100%;
+  padding: 14px 16px 14px 36px; /* Add padding to make space for the $ sign */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f1f3f5;
+  color: #495057;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-.deposit-page select:focus,
-.deposit-page input[type="number"]:focus {
+.deposit-form input[type="number"]:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
 }
 
-.deposit-page input[type="number"]::placeholder {
-  color: #a0aec0;
+.deposit-form input::placeholder {
+  color: #6c757d;
 }
 
-.deposit-page button {
-  padding: 12px 20px;
+.deposit-form button {
+  padding: 14px 22px;
   background-color: #3182ce;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
-.deposit-page button:hover {
+.deposit-form button:hover {
   background-color: #2b6cb0;
 }
 
-.deposit-page button:active {
-  transform: scale(0.98);
+.deposit-form button:active {
+  transform: scale(0.97);
 }
 
-.deposit-page .message-base {
+.deposit-message {
   font-weight: 500;
   text-align: center;
-  padding: 12px;
-  border-radius: 6px;
-  margin-top: 20px;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 25px;
+  border-width: 1px;
+  border-style: solid;
 }
 
-.deposit-page .success-message {
-  color: #2f855a;
-  background-color: #c6f6d5;
-  border: 1px solid #9ae6b4;
+.deposit-message.success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
 }
 
-.deposit-page .error-message {
-  color: #c53030;
-  background-color: #fed7d7;
-  border: 1px solid #feb2b2;
+.deposit-message.error {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
 }
 
-.deposit-page .input-with-dollar {
-  display: flex;
-  align-items: center;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background-color: #fdfdfe;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.deposit-page .input-with-dollar:focus-within {
-  outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
-}
-
-.deposit-page .input-with-dollar span {
-  padding-left: 15px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #718096;
-}
-
-.deposit-page .input-with-dollar input[type="number"] {
-  border: none;
-  flex-grow: 1;
-  background-color: transparent;
-  box-shadow: none;
-  padding-left: 5px;
-}
-
-.deposit-page .input-with-dollar input[type="number"]:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.deposit-page input[type="number"]::-webkit-outer-spin-button,
-.deposit-page input[type="number"]::-webkit-inner-spin-button {
+.deposit-form input[type="number"]::-webkit-outer-spin-button,
+.deposit-form input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.deposit-page input[type="number"] {
+.deposit-form input[type="number"] {
   -moz-appearance: textfield;
 }
