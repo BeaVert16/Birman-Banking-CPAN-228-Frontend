@@ -1,6 +1,8 @@
 .deposit-container {
   display: flex;
-  padding-top: 40px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
 }
 
 .deposit-card {
