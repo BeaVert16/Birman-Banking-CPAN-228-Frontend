@@ -121,7 +121,7 @@ const LoginPage = () => {
         <div className="image">
           <img
             className="logo"
-            src="Images/BirmanBankLogo/Birmantext with icon.png"
+            src="src/Images/BirmanBankLogo/Birmantext with icon.png"
             alt="BirmanIconWithText"
           />
         </div>

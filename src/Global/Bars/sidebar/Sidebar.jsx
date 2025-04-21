@@ -136,7 +136,7 @@ const Bar = ({ collapsed }) => {
               <div className="logo-container">
                 <img
                   className="logo"
-                  src="Images/BirmanBankLogo/BirmanIcon.png"
+                  src="src/Images/BirmanBankLogo/BirmanIcon.png"
                   alt="BongoCatto"
                 />
                 {!collapsed && <div className="logo-text">Birman Banking</div>}
@@ -154,7 +154,7 @@ const Bar = ({ collapsed }) => {
               <div className="bottom-container">
                 <img
                   className="logo"
-                  src="Images/GitHubIcon.png"
+                  src="src/Images/GitHubIcon.png"
                   alt="GitHub."
                 />
                 {!collapsed && <div className="logo-text"></div>}

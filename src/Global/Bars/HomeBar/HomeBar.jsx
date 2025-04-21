@@ -8,7 +8,7 @@ const HomeBar = () => {
   return (
     <div className="homeBar">
       <img
-        src="Images/BirmanBankLogo/BirmanIcon.png"
+        src="src/Images/BirmanBankLogo/BirmanIcon.png"
         alt="BirmanIconWithText"
       />
       <div className="title">BIRMAN BANKING</div>

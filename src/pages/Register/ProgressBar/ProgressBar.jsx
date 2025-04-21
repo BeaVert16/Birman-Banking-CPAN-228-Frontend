@@ -8,7 +8,7 @@ const ProgressBar = ({ step }) => {
     <div className="progressBar">
       <img
         className="progressBar-logo"
-        src="Images/BirmanBankLogo/BirmanIcon.png"
+        src="src/Images/BirmanBankLogo/BirmanIcon.png"
         alt="BirmanIconWithText"
       />
       <a href="/">

@@ -16,12 +16,12 @@ const LoadingCat = ({ className, style }) => {
     <div className={`loading-cat ${className}`} style={style}>
       {showFirstImage ? (
         <img
-          src="/Images/Loading/CatHandsUp.png"
+          src="src/Images/Loading/CatHandsUp.png"
           className="login-animation-image"
         />
       ) : (
         <img
-          src="/Images/Loading/CatHandsSlap.png"
+          src="src/Images/Loading/CatHandsSlap.png"
           className="login-animation-image"
         />
       )}
