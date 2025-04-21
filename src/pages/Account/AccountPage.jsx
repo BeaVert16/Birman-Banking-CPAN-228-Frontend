@@ -4,11 +4,13 @@ import "../../App.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import useFetchAccounts from "../../Global/hooks/useFetchAccounts";
+import LoadingErrorHandler from "../../Global/Loading/LoadingErrorHandler";
+import formatCurrency from "../../Global/Utils/formatCurrency";
 
 const AccountPage = () => {
   const { user } = useContext(IsLoggedInContext);
   const navigate = useNavigate();
-  const { accounts, error } = useFetchAccounts(user);
+  const { accounts, error, loading } = useFetchAccounts(user);
   const location = useLocation();
   const [message, setMessage] = useState(location.state?.message || "");
   const [showPopup, setShowPopup] = useState(!!location.state?.message);
@@ -35,11 +37,8 @@ const AccountPage = () => {
     navigate(`/account/${accountId}/edit`);
   };
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+  const handleCreateAccount = () => {
+    navigate("/account/create");
   };
 
   return (
@@ -51,46 +50,53 @@ const AccountPage = () => {
       </header>
       <section className="account-list">
         <h2>Your Accounts</h2>
-        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-        {accounts.length > 0 ? (
-          accounts.map((account) => (
-            <div
-              key={account.accountId}
-              className="account-card"
-              onClick={() => handleAccountClick(account.accountId)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  handleAccountClick(account.accountId);
-                }
-              }}
-            >
-              <h3>{account.accountType}</h3>
-              <div className="account-details">
-                <span className="account-id">Name: {account.accountName}</span>
-                <span className="account-id">Account #: {account.accountId}</span>
+        <LoadingErrorHandler loading={loading} error={error}>
+          {accounts.length > 0 ? (
+            accounts.map((account) => (
+              <div
+                key={account.accountId}
+                className="account-card"
+                onClick={() => handleAccountClick(account.accountId)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleAccountClick(account.accountId);
+                  }
+                }}
+              >
+                <h3>{account.accountType}</h3>
+                <div className="account-details">
+                  <span className="account-id">
+                    Name: {account.accountName}
+                  </span>
+                  <span className="account-id">
+                    Account #: {account.accountId}
+                  </span>
+                </div>
+                <p className="account-balance">
+                  {formatCurrency(account.balance)}
+                </p>
+                <p className="account-status">Status: {account.status}</p>
+                <div className="account-actions">
+                  <button
+                    className="edit-account-button"
+                    onClick={(e) => handleEditClick(e, account.accountId)}
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
-              <p className="account-balance">${formatCurrency(account.balance)}</p>
-              <p className="account-status">Status: {account.status}</p>
-              <div className="account-actions">
-                <button
-                  className="edit-account-button"
-                  onClick={(e) => handleEditClick(e, account.accountId)}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          !error && <p style={{ textAlign: "center" }}>No accounts found.</p>
-        )}
+            ))
+          ) : (
+            <p style={{ textAlign: "center" }}>No accounts found.</p>
+          )}
+        </LoadingErrorHandler>
       </section>
       <div>
-        <a href="/account/create" className="create-account-button">
+        <button onClick={handleCreateAccount} className="create-account-button">
           Create New Account
-        </a>
+        </button>
       </div>
     </div>
   );

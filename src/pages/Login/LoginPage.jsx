@@ -2,13 +2,16 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../ServerIpAdd";
+import useTokenCheck from "../../Global/hooks/useTokenCheck";
+import fetchApi from "../../Global/Utils/fetchApi";
+import LoadingCat from "../../Global/Loading/LoadingCat/LoadingCat";
 
 import "./LoginPage.css";
-import LoadingCat from "../../Global/LoadingCat/LoadingCat";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { checkAuth } = useContext(IsLoggedInContext);
+  const { getToken } = useTokenCheck();
 
   const [formData, setFormData] = useState({
     cardNumber: "",
@@ -20,10 +23,8 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/account");
-    }
+    const token = getToken();
+    if (!token) return;
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -67,52 +68,27 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${serverIpAddress}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const result = await fetchApi(
+        `${serverIpAddress}/api/auth/login`,
+        "POST",
+        {
           cardNumber: formData.cardNumber,
           password: formData.password,
-        }),
-      });
-
-      // --- Check if the response status indicates success ---
-      if (response.ok) {
-        const result = await response.json(); // Only parse JSON if response is OK
-        localStorage.setItem("token", result.token);
-        await checkAuth(); // Refresh auth context
-        navigate("/account"); // Navigate on successful login
-      } else {
-        // --- Handle non-OK responses (like 401 Unauthorized) ---
-        let errorMessage = `Login failed with status: ${response.status}`;
-        try {
-          // Try to get more specific error message from backend response body
-          const errorResult = await response.json(); // Try parsing as JSON first
-          errorMessage =
-            errorResult.message ||
-            errorResult.error ||
-            JSON.stringify(errorResult);
-        } catch (e) {
-          console.error("Failed to parse error response as JSON:", e);
-          try {
-            const errorText = await response.text();
-            if (errorText) {
-              errorMessage = errorText;
-            }
-          } catch (e) {
-            console.error("Failed to read error response as text:", e);
-          }
         }
-        console.error("Login failed:", errorMessage);
-        setLoginError(errorMessage); // Set the specific login error state
-      }
+      );
+
+      localStorage.setItem("token", result.token);
+      await checkAuth(); // Refresh auth context
+      navigate("/account"); // Navigate on successful login
     } catch (error) {
-      // --- Handle network errors or other exceptions during fetch ---
-      console.error("Error logging in:", error);
-      setLoginError("Network error or server unavailable. Please try again."); // Set a generic error
+      setLoginError(error.message || "Network error or server unavailable.");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/register");
   };
 
   return (
@@ -174,9 +150,9 @@ const LoginPage = () => {
         )}
         <div className="register-box">
           <h4>Don't have an account?</h4>
-          <a href="/register" className="register-button">
-            <button>Register</button>
-          </a>
+          <button onClick={handleRegisterClick} className="register-button">
+            Register
+          </button>
         </div>
       </div>
     </div>

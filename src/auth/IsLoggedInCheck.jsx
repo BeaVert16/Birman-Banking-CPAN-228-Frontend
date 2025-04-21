@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import LoadingCat from "../Global/LoadingCat/LoadingCat";
+import LoadingCat from "../Global/Loading/LoadingCat/LoadingCat";
 import { serverIpAddress } from "../ServerIpAdd";
 
 export const IsLoggedInContext = createContext();
