@@ -13,6 +13,9 @@ const AccountPage = () => {
   const { accounts, error, loading } = useFetchAccounts(user);
   const location = useLocation();
   const [message, setMessage] = useState(location.state?.message || "");
+  const [messageType] = useState(
+    location.state?.messageType || "success"
+  );
   const [showPopup, setShowPopup] = useState(!!location.state?.message);
 
   useEffect(() => {
@@ -43,8 +46,12 @@ const AccountPage = () => {
 
   return (
     <div className="account-page">
-      {showPopup && <div className="message-popup">{message}</div>}
-
+      {showPopup && messageType === "success" && (
+        <div className="message-suc">{message}</div>
+      )}
+      {showPopup && messageType === "error" && (
+        <div className="message-error">{message}</div>
+      )}
       <header className="account-header">
         <h1 className="welcome">Welcome, {user?.firstName || "User"}</h1>
       </header>

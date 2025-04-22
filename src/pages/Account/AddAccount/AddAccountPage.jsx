@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { serverIpAddress } from "../../../ServerIpAdd";
 import useTokenCheck from "../../../Global/hooks/useTokenCheck";
-import FetchApi from "../../../Global/Utils/fetchApi";
+import fetchApi from "../../../Global/Utils/fetchApi";
 import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
 import "./AddAccountPage.css";
 
@@ -27,7 +27,7 @@ const AddAccountPage = () => {
           const token = getToken();
           if (!token) return;
 
-          const data = await FetchApi(
+          const data = await fetchApi(
             `${serverIpAddress}/api/accounts/${accountId}/basic`,
             "GET",
             null,
@@ -36,7 +36,12 @@ const AddAccountPage = () => {
           setAccountName(data.accountName);
           setAccountType(data.accountType); // Keep account type but disable editing
         } catch (e) {
-          setError(e.message);
+          if (e.response && e.response.json) {
+            const errorData = await e.response.json();
+            setError(errorData.message || "An error occurred.");
+          } else {
+            setError(e.message || "An error occurred.");
+          }
         } finally {
           setLoading(false);
         }
@@ -72,7 +77,7 @@ const AddAccountPage = () => {
         ...(isEditMode ? {} : { accountType }),
       };
 
-      const data = await FetchApi(endpoint, method, body, token);
+      const data = await fetchApi(endpoint, method, body, token);
 
       navigate("/account", {
         state: {
@@ -97,7 +102,7 @@ const AddAccountPage = () => {
       const token = getToken();
       if (!token) return;
 
-      await FetchApi(
+      await fetchApi(
         `${serverIpAddress}/api/accounts/${accountId}/delete`,
         "DELETE",
         null,
@@ -105,10 +110,18 @@ const AddAccountPage = () => {
       );
 
       navigate("/account", {
-        state: { message: "Account deleted successfully." },
+        state: {
+          message: "Account deleted successfully.",
+          messageType: "success",
+        },
       });
     } catch (e) {
-      setError(e.message);
+      navigate("/account", {
+        state: {
+          message: `Failed to delete account: ${e.message}`,
+          messageType: "error",
+        },
+      });
     }
   };
 

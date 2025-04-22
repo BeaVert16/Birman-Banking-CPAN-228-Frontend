@@ -28,19 +28,30 @@ const AccountDetails = () => {
       try {
         const token = getToken();
         if (!token) return;
-
+  
         const data = await fetchApi(
           `${serverIpAddress}/api/accounts/${accountId}/details?page=${page}&size=${itemsPerPage}&sort=timestamp,desc`,
           "GET",
           null,
           token
         );
-
-        setAccountDetails(data.account);
-        setTransactions(data.transactions.content);
-        setCurrentPage(data.transactions.number);
-        setTotalPages(data.transactions.totalPages);
-        setTotalElements(data.transactions.totalElements);
+  
+        const account = await fetchApi(
+          `${serverIpAddress}/api/accounts/${accountId}/basic`,
+          "GET",
+          null,
+          token
+        );
+  
+        setAccountDetails(account);
+  
+        const embeddedTx = data._embedded?.transactionList || [];
+        setTransactions(embeddedTx);
+  
+        const pageInfo = data.page;
+        setCurrentPage(pageInfo.number);
+        setTotalPages(pageInfo.totalPages);
+        setTotalElements(pageInfo.totalElements);
       } catch (e) {
         setError(
           "A network error occurred while fetching account details: " + e
@@ -49,12 +60,12 @@ const AccountDetails = () => {
         setLoading(false);
       }
     };
-
+  
     if (accountId) {
       fetchAccountDetails(currentPage);
     }
   }, [accountId, currentPage, getToken]);
-
+  
   const handlePreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
@@ -76,7 +87,7 @@ const AccountDetails = () => {
             <h3>Account Details</h3>
             <p>Account ID: {accountDetails.accountId}</p>
             <p className="balance">
-              Balance: ${formatCurrency(accountDetails.balance)}
+              Balance: {formatCurrency(accountDetails.balance)}
             </p>
             <p>Status: {accountDetails.status}</p>
             <p>
@@ -98,14 +109,13 @@ const AccountDetails = () => {
                           tx.transactionAmount >= 0 ? "positive" : "negative"
                         }
                       >
-                        ${formatCurrency(Math.abs(tx.transactionAmount))}
+                        {formatCurrency(Math.abs(tx.transactionAmount))}
                       </span>
                     </p>
                     <p>Date: {new Date(tx.timestamp).toLocaleString()}</p>
                     <p>Description: {tx.description || "N/A"}</p>
                     <p>
-                      Balance After: $
-                      {formatCurrency(tx.postTransactionBalance)}
+                      Balance After: {formatCurrency(tx.postTransactionBalance)}
                     </p>
                     {tx.transferToAccountId && (
                       <p>Transfer To: {tx.transferToAccountId}</p>
