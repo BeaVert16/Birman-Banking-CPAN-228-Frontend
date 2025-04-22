@@ -9,3 +9,15 @@
     color: white;
     text-align: center;
 }
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .home-logo {
+    max-width: 200px;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
