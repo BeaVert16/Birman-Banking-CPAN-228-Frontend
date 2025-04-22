@@ -16,6 +16,7 @@ import AddAccountPage from "./pages/Account/AddAccount/AddAccountPage";
 import InternalTransferPage from "./pages/Transactions/InternalTransfer/InternalTransferPage";
 
 import AdminDashboardTemplate from "./Admin/AdminDashboardTemplate";
+import AdminDashboard from "./Admin/AdminDashboard/AdminDashboard";
 import Transactions from "./Admin/Transactions/Transactions";
 import Clients from "./Admin/Clients/Clients";
 import Accounts from "./Admin/Accounts/Accounts";
@@ -24,6 +25,10 @@ import AddAccountAdmin from "./Admin/Accounts/options/AddAccountAdmin";
 import InboxPage from "./pages/Inbox/InboxPage";
 import CreditPage from "./pages/Transactions/Credit/CreditPage";
 import Loans from "./Admin/Loans/Loans";
+import AddAdmin from "./Admin/AddAdmin/AddAdmin";
+import AddClientAdmin from "./Admin/Clients/options/AddClientAdmin";
+import EditClient from "./Admin/Clients/options/EditClient";
+import ViewClient from "./Admin/Clients/options/ViewClient";
 
 const App = () => {
   return (
@@ -48,6 +53,7 @@ const App = () => {
                 </RouteProtector>
               }
             >
+              <Route index element={<AdminDashboard />} />
               <Route
                 path="transactions"
                 element={
@@ -91,7 +97,7 @@ const App = () => {
               <Route
                 path="accounts/:accountId/edit"
                 element={
-                  <RouteProtector>
+                  <RouteProtector requiredRole="ADMIN">
                     <AddAccountAdmin />
                   </RouteProtector>
                 }
@@ -101,6 +107,38 @@ const App = () => {
                 element={
                   <RouteProtector requiredRole="ADMIN">
                     <Users />
+                  </RouteProtector>
+                }
+              />
+              <Route
+                path="admin-dashboard/add-admin"
+                element={
+                  <RouteProtector requiredRole="ADMIN">
+                    <AddAdmin />
+                  </RouteProtector>
+                }
+              />
+              <Route
+                path="admin-dashboard/clients/add"
+                element={
+                  <RouteProtector requiredRole="ADMIN">
+                    <AddClientAdmin />
+                  </RouteProtector>
+                }
+              />
+              <Route
+                path="admin-dashboard/clients/:clientId/edit"
+                element={
+                  <RouteProtector requiredRole="ADMIN">
+                    <EditClient />
+                  </RouteProtector>
+                }
+              />
+              <Route
+                path="admin-dashboard/clients/:clientId/view"
+                element={
+                  <RouteProtector requiredRole="ADMIN">
+                    <ViewClient />
                   </RouteProtector>
                 }
               />

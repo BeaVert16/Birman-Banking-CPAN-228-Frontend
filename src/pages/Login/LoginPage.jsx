@@ -84,7 +84,7 @@ const LoginPage = () => {
 
       // Check the role property in the response
       if (result.role === "ADMIN") {
-        navigate("/admin-dashboard/clients");
+        navigate("/admin-dashboard");
       } else {
         navigate("/account");
       }

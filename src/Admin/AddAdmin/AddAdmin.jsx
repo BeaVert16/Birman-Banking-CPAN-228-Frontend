@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { serverIpAddress } from "../ServerIpAdd";
-import fetchApi from "../Global/Utils/fetchApi";
-import useTokenCheck from "../Global/hooks/useTokenCheck";
-import LoadingErrorHandler from "../Global/Loading/LoadingErrorHandler";
+import { serverIpAddress } from "../../ServerIpAdd";
+import fetchApi from "../../Global/Utils/fetchApi";
+import useTokenCheck from "../../Global/hooks/useTokenCheck";
+import LoadingErrorHandler from "../../Global/Loading/LoadingErrorHandler";
 import "./AddAdmin.css";
 
 const CreateAdmin = () => {

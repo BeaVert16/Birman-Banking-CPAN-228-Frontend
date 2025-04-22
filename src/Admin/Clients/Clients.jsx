@@ -39,34 +39,34 @@ const Clients = () => {
     fetchClients();
   }, [getToken]);
 
-  const handleEdit = (clientId) => {
-    navigate(`/client/edit/${clientId}`);
-  };
+  // const handleEdit = (clientId) => {
+  //   navigate(`/client/edit/${clientId}`);
+  // };
 
-  const handleDelete = async (clientId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this client?"
-    );
-    if (!confirmDelete) return;
+  // const handleDelete = async (clientId) => {
+  //   const confirmDelete = window.confirm(
+  //     "Are you sure you want to delete this client?"
+  //   );
+  //   if (!confirmDelete) return;
 
-    try {
-      const token = getToken();
-      if (!token) return;
+  //   try {
+  //     const token = getToken();
+  //     if (!token) return;
 
-      await fetchApi(
-        `${serverIpAddress}/api/admin/clients/${clientId}`,
-        "DELETE",
-        null,
-        token
-      );
+  //     await fetchApi(
+  //       `${serverIpAddress}/api/admin/clients/${clientId}`,
+  //       "DELETE",
+  //       null,
+  //       token
+  //     );
 
-      setClients((prevClients) =>
-        prevClients.filter((client) => client.clientId !== clientId)
-      );
-    } catch (err) {
-      setError(err.message || "Failed to delete client.");
-    }
-  };
+  //     setClients((prevClients) =>
+  //       prevClients.filter((client) => client.clientId !== clientId)
+  //     );
+  //   } catch (err) {
+  //     setError(err.message || "Failed to delete client.");
+  //   }
+  // };
 
   return (
     <div className="clients-page">
@@ -84,7 +84,7 @@ const Clients = () => {
                 <div>
                   <strong>Name:</strong> {client.name}
                 </div>
-                <button
+                {/* <button
                   onClick={() => handleEdit(client.clientId)}
                   className="edit-button"
                 >
@@ -95,7 +95,7 @@ const Clients = () => {
                   className="delete-button"
                 >
                   Delete
-                </button>
+                </button> */}
               </li>
             ))}
           </ul>

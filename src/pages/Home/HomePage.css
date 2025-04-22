@@ -1,23 +1,88 @@
-.card{
-    color: #1a1a1a;
+.home-page {
+  background-color: #f4f7fc;
+  color: #1a1a1a;
+  font-family: "Montserrat", sans-serif;
+  min-height: 100vh;
 }
 
-.welcome-message{
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: white;
-    text-align: center;
+.home-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.logo-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .home-logo {
-    max-width: 200px;
-    height: auto;
-    filter: brightness(0) invert(1);
-  }
+.welcome-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.welcome-section h1 {
+  font-size: 2.5rem;
+  color: #2a3b57;
+  margin-bottom: 10px;
+}
+
+.welcome-section p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.home-logo {
+  max-width: 150px;
+  margin-top: 20px;
+}
+
+.about-section,
+.features-section,
+.cta-section {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.about-section h2,
+.features-section h2 {
+  font-size: 1.8rem;
+  color: #2a3b57;
+  margin-bottom: 15px;
+}
+
+.about-section p,
+.features-section p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.feature-list li strong {
+  color: #2a3b57;
+}
+
+.cta-section {
+  text-align: center;
+}
+
+.cta-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.cta-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

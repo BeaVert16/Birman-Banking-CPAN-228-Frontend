@@ -4,6 +4,7 @@ import useFetchAccounts from "../../../Global/hooks/useFetchAccounts";
 import { serverIpAddress } from "../../../ServerIpAdd";
 import fetchApi from "../../../Global/Utils/fetchApi";
 import LoadingErrorHandler from "../../../Global/Loading/LoadingErrorHandler";
+import formatCurrency from "../../../Global/Utils/formatCurrency";
 import "./DepositPage.css";
 
 const DepositPage = () => {
@@ -63,7 +64,7 @@ const DepositPage = () => {
         <option value="">Select an account</option>
         {accounts.map((account) => (
           <option key={account.accountId} value={account.accountId}>
-            {account.accountType} - ${account.balance.toFixed(2)}
+            {account.accountType} - {formatCurrency(account.balance)}
           </option>
         ))}
       </select>
