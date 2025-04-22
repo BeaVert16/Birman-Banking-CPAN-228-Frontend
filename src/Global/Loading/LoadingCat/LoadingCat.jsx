@@ -13,18 +13,20 @@ const LoadingCat = ({ className, style }) => {
   }, []);
 
   return (
-    <div className={`loading-cat ${className}`} style={style}>
-      {showFirstImage ? (
-        <img
-          src="src/Images/Loading/CatHandsUp.png"
-          className="login-animation-image"
-        />
-      ) : (
-        <img
-          src="src/Images/Loading/CatHandsSlap.png"
-          className="login-animation-image"
-        />
-      )}
+    <div className="loading-container">
+      <div className={`loading-cat ${className}`} style={style}>
+        {showFirstImage ? (
+          <img
+            src="src/Images/Loading/CatHandsUp.png"
+            className="login-animation-image"
+          />
+        ) : (
+          <img
+            src="src/Images/Loading/CatHandsSlap.png"
+            className="login-animation-image"
+          />
+        )}
+      </div>
     </div>
   );
 };

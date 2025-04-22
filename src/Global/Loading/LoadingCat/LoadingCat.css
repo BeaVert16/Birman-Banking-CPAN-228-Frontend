@@ -4,11 +4,15 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
+  position: fixed; /* Ensures it covers the entire screen */
+  top: 0;
+  left: 0;
+  z-index: 9999; /* Ensures it appears above other elements */
 }
 
 .loading-cat {
   max-width: 400px;
-  max-height: 300px; 
+  max-height: 300px;
 }
 
 .loading-cat-image {

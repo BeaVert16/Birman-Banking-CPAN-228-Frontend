@@ -28,7 +28,7 @@
   gap: 10px;
 }
 
-.homeBar .register-buttons a button {
+.homeBar .register-buttons button {
   padding: 8px 16px;
   background-color: #3182ce;
   color: white;
@@ -36,8 +36,10 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  font-family: "Arial", sans-serif;
+  transition: background-color 0.3s ease;
 }
 
-.homeBar .register-buttons a button:hover {
+.homeBar .register-buttons button:hover {
   background-color: #2b6cb0;
 }

@@ -2,6 +2,8 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";
+import Logo from "../../../Images/BirmanBankLogo/BirmanIcon.png";
+import Gitlogo from "../../../Images/GitHubIcon.png";
 
 import "./Sidebar.css";
 
@@ -136,7 +138,7 @@ const Bar = ({ collapsed }) => {
               <div className="logo-container">
                 <img
                   className="logo"
-                  src="src/Images/BirmanBankLogo/BirmanIcon.png"
+                  src={Logo}
                   alt="BongoCatto"
                 />
                 {!collapsed && <div className="logo-text">Birman Banking</div>}
@@ -154,7 +156,7 @@ const Bar = ({ collapsed }) => {
               <div className="bottom-container">
                 <img
                   className="logo"
-                  src="src/Images/GitHubIcon.png"
+                  src={Gitlogo}
                   alt="GitHub."
                 />
                 {!collapsed && <div className="logo-text"></div>}
