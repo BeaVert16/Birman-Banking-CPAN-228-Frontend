@@ -43,10 +43,6 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoginError(""); // Clear previous login errors
-    setErrors({}); // Clear validation errors
-
     // --- Frontend Validation ---
     const newErrors = {};
     if (!formData.cardNumber) {
@@ -58,6 +54,10 @@ const LoginPage = () => {
     if (!formData.password) {
       newErrors.password = "Password is required.";
     }
+
+    e.preventDefault();
+    setLoginError(""); // Clear previous login errors
+    setErrors({}); // Clear validation errors
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -77,9 +77,17 @@ const LoginPage = () => {
         }
       );
 
+      console.log(result); // Debugging: Check the response structure
+
       localStorage.setItem("token", result.token);
       await checkAuth(); // Refresh auth context
-      navigate("/account"); // Navigate on successful login
+
+      // Check the role property in the response
+      if (result.role === "ADMIN") {
+        navigate("/admin-dashboard/clients");
+      } else {
+        navigate("/account");
+      }
     } catch (error) {
       setLoginError(error.message || "Network error or server unavailable.");
     } finally {
@@ -93,12 +101,18 @@ const LoginPage = () => {
 
   return (
     <div className="login-overlay">
+      {isLoading && (
+        <div className="loading-fullscreen">
+          <LoadingCat />
+        </div>
+      )}
       <div className="login-container">
         <div className="image">
           <img
             className="logo"
             src="src/Images/BirmanBankLogo/Birmantext with icon.png"
             alt="BirmanIconWithText"
+            onClick={() => navigate("/")}
           />
         </div>
         <h3>Login</h3>
@@ -143,11 +157,6 @@ const LoginPage = () => {
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {isLoading && (
-          <div className="loading-overlay">
-            <LoadingCat />
-          </div>
-        )}
         <div className="register-box">
           <h4>Don't have an account?</h4>
           <button onClick={handleRegisterClick} className="register-button">
