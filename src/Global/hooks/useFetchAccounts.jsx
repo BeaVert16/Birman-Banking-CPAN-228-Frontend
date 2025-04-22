@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { serverIpAddress } from "../../ServerIpAdd";
+import { useNavigate } from "react-router-dom";
 
 const useFetchAccounts = (user) => {
   const [accounts, setAccounts] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -27,7 +29,8 @@ const useFetchAccounts = (user) => {
           let errorMsg = `Error: ${response.status} ${response.statusText}`;
           try {
             const errorData = await response.json();
-            errorMsg = errorData.message || JSON.stringify(errorData) || errorMsg;
+            errorMsg =
+              errorData.message || JSON.stringify(errorData) || errorMsg;
           } catch (e) {
             console.error("Could not parse error response as JSON: " + e);
           }
@@ -37,9 +40,14 @@ const useFetchAccounts = (user) => {
 
         const data = await response.json();
         setAccounts(data);
-      } catch (error) {
-        console.error("Error fetching accounts:", error);
-        setError("Failed to fetch accounts due to a network or server issue.");
+      } catch (e) {
+        if (e.message === "Unauthorized") {
+          setError("Your session has expired. Please log in again.");
+          navigate("/login");
+        } else {
+          console.error("Error fetching accounts:", error);
+          setError("Failed to fetch accounts due to a network or server issue.");
+        }
       }
     };
 
