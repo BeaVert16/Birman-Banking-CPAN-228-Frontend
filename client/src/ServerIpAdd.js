@@ -1,2 +1,1 @@
-// export const serverIpAddress = "http://192.168.50.11:8080";
-export const serverIpAddress = "http://localhost:8080";
+export const serverIpAddress = import.meta.env.VITE_API_URL || "http://localhost:8080";

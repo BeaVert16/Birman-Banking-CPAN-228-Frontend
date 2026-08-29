@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: birman-banking-server
+    env: docker
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+
+  - type: web
+    name: birman-banking-client
+    env: static
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: ./client/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: birman-banking-server
+          envVarKey: RENDER_EXTERNAL_URL
