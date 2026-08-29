@@ -1,5 +1,3 @@
-blueprintId: birman-banking
-
 services:
   - type: web
     name: birman-banking-server
