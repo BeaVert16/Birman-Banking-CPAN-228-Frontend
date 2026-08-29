@@ -43,10 +43,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // enable CORS
                 .cors(withDefaults())
-                .authorizeHttpRequests(authz -> authz // defines authorization rules
-                        .requestMatchers("/api/auth/**").permitAll() // allow login and register endpoints
-                        .requestMatchers("/api/clients/inbox").authenticated() // Allow inbox access for all authenticated users
-                        .requestMatchers("/api/accounts/**", "/api/transfer/**", "/api/deposit/**", "/api/withdraw/**", "/api/settings/**").hasAnyAuthority("ROLE_ACTIVATED","ROLE_ADMIN" ) // require activation or admin role
+                .authorizeHttpRequests(authz -> authz // Defines authorization rules.
+                        .requestMatchers("/api/auth/**", "/error").permitAll() // Allow login, register, and error endpoints.
+                        .requestMatchers("/api/clients/inbox").authenticated() // Allow inbox access for all authenticated users.
+                        .requestMatchers("/api/accounts/**", "/api/transfer/**", "/api/deposit/**", "/api/withdraw/**", "/api/settings/**").hasAnyAuthority("ROLE_ACTIVATED","ROLE_ADMIN" ) // Require activation or admin role.
                         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 // disable session management

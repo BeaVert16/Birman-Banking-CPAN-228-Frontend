@@ -40,7 +40,7 @@ public class MongoConfig {
         log.info("Starting in-memory MongoDB...");
         MongoServer server = new MongoServer(new MemoryBackend());
         InetSocketAddress serverAddress = server.bind();
-        String localUri = "mongodb://" + serverAddress.getHostName() + ":" + serverAddress.getPort();
+        String localUri = "mongodb://127.0.0.1:" + serverAddress.getPort();
         log.info("In-memory MongoDB started at {}", localUri);
         
         return MongoClients.create(localUri);
