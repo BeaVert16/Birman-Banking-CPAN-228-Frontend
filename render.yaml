@@ -3,6 +3,7 @@ services:
     name: birman-banking-server
     env: docker
     plan: free
+    autoDeploy: true
     dockerfilePath: ./server/Dockerfile
     dockerContext: ./server
     envVars:
@@ -12,6 +13,7 @@ services:
   - type: web
     name: birman-banking
     env: static
+    autoDeploy: true
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: ./client/dist
     routes:
