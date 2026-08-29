@@ -1,9 +1,10 @@
-import LoadingCat from "./LoadingCat/LoadingCat";
+﻿import Loading from "./Loading";
 
 const LoadingErrorHandler = ({ loading, error, children }) => {
-  if (loading) return <LoadingCat />;
+  if (loading) return <Loading />;
   if (error) return <p className="error-message">{error}</p>;
   return children;
 };
 
 export default LoadingErrorHandler;
+

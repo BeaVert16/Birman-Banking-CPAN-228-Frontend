@@ -1,5 +1,5 @@
 import "./TopBar.css";
-import Hamburger from "../../../Icons/Hamburger/Hamburger";
+import Hamburger from "../../../Icons/Hamburger";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { IsLoggedInContext } from "../../../auth/IsLoggedInCheck";

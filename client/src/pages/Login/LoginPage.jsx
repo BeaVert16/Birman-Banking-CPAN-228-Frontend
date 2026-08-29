@@ -1,10 +1,10 @@
-import { useState, useContext, useEffect } from "react";
+﻿import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../ServerIpAdd";
 import useTokenCheck from "../../Global/hooks/useTokenCheck";
 import fetchApi from "../../Global/Utils/fetchApi";
-import LoadingCat from "../../Global/Loading/LoadingCat/LoadingCat";
+import Loading from "../../Global/Loading/Loading";
 
 import "./LoginPage.css";
 
@@ -19,7 +19,7 @@ const LoginPage = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState(""); // State specifically for login API errors
+  const [loginError, setLoginError] = useState(""); // State specifically for login API errors.
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,8 +29,8 @@ const LoginPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLoginError(""); // Clear login error on input change
-    setErrors((prev) => ({ ...prev, [name]: undefined })); // Clear specific field validation error
+    setLoginError(""); // Clear login error on input change.
+    setErrors((prev) => ({ ...prev, [name]: undefined })); // Clear specific field validation error.
 
     if (name === "cardNumber") {
       const numericValue = value.replace(/\D/g, "");
@@ -103,7 +103,7 @@ const LoginPage = () => {
     <div className="login-overlay">
       {isLoading && (
         <div className="loading-fullscreen">
-          <LoadingCat />
+          <Loading />
         </div>
       )}
       <div className="login-container">
@@ -169,3 +169,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

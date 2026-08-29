@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from "react";
-import LoadingCat from "../Global/Loading/LoadingCat/LoadingCat";
+﻿import { createContext, useState, useEffect } from "react";
+import Loading from "../Global/Loading/Loading";
 import { serverIpAddress } from "../ServerIpAdd";
 
 export const IsLoggedInContext = createContext();
@@ -62,9 +62,10 @@ const IsLoggedInCheck = ({ children }) => {
     <IsLoggedInContext.Provider
       value={{ isAuthenticated, user, checkAuth, logout }}
     >
-      {loading ? <LoadingCat /> : children}
+      {loading ? <Loading /> : children}
     </IsLoggedInContext.Provider>
   );
 };
 
 export default IsLoggedInCheck;
+

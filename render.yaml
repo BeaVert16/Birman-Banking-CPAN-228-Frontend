@@ -5,6 +5,9 @@ services:
     plan: free
     dockerfilePath: ./server/Dockerfile
     dockerContext: ./server
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
 
   - type: web
     name: birman-banking-client

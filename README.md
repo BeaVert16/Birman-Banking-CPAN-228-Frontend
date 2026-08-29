@@ -1,8 +1,8 @@
-# Birman-Banking-CPAN-228
+# Birman Banking
 
-To run the front-end use commands:
+To run the front-end client use commands:  
 1 - "cd client"  
 2 - "npm i"  
 3 - "npm run dev"  
 
-Back-end is powered by Spring Boot.
+The back-end Server is powered by Spring Boot.
