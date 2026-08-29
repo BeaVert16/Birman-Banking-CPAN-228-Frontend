@@ -1,4 +1,5 @@
 import "./ProgressBar.css";
+import birmanIcon from "../../../Images/BirmanBankLogo/BirmanIcon.png";
 
 const ProgressBar = ({ step }) => {
   const totalSteps = 4; // Total number of steps in the registration process
@@ -8,7 +9,7 @@ const ProgressBar = ({ step }) => {
     <div className="progressBar">
       <img
         className="progressBar-logo"
-        src="src/Images/BirmanBankLogo/BirmanIcon.png"
+        src={birmanIcon}
         alt="BirmanIconWithText"
       />
       <a href="/">

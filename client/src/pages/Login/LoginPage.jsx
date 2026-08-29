@@ -1,8 +1,9 @@
-﻿import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IsLoggedInContext } from "../../auth/IsLoggedInCheck";
 import { serverIpAddress } from "../../ServerIpAdd";
 import useTokenCheck from "../../Global/hooks/useTokenCheck";
+import birmanLogo from "../../Images/BirmanBankLogo/Birmantext with icon.png";
 import fetchApi from "../../Global/Utils/fetchApi";
 import Loading from "../../Global/Loading/Loading";
 
@@ -110,7 +111,7 @@ const LoginPage = () => {
         <div className="image">
           <img
             className="logo"
-            src="src/Images/BirmanBankLogo/Birmantext with icon.png"
+            src={birmanLogo}
             alt="BirmanIconWithText"
             onClick={() => navigate("/")}
           />
