@@ -20,26 +20,29 @@ public class MongoConfig {
     @Value("${spring.data.mongodb.uri:}")
     private String mongoUri;
 
+    @Bean(destroyMethod = "shutdownNow")
+    public MongoServer mongoServer() {
+        log.info("Starting in-memory MongoDB...");
+        MongoServer server = new MongoServer(new MemoryBackend());
+        server.bind(new InetSocketAddress("127.0.0.1", 0));
+        return server;
+    }
+
     @Bean
-    public MongoClient mongoClient() {
+    public MongoClient mongoClient(MongoServer mongoServer) {
         if (mongoUri != null && !mongoUri.isEmpty()) {
             try {
                 log.info("Attempting to connect to primary MongoDB URI");
                 MongoClient client = MongoClients.create(mongoUri);
-                // test connection by fetching database names
                 client.listDatabaseNames().first();
                 log.info("Successfully connected to primary MongoDB");
                 return client;
             } catch (Exception e) {
-                log.warn("Failed to connect to primary MongoDB, falling back to in-memory DB. Reason: {}", e.getMessage());
+                log.warn("Failed to connect to primary MongoDB. Reason: {}", e.getMessage());
             }
-        } else {
-            log.info("No MongoDB URI provided, falling back to in-memory DB.");
         }
         
-        log.info("Starting in-memory MongoDB...");
-        MongoServer server = new MongoServer(new MemoryBackend());
-        InetSocketAddress serverAddress = server.bind(new InetSocketAddress("127.0.0.1", 0));
+        java.net.InetSocketAddress serverAddress = mongoServer.getLocalAddress();
         String localUri = "mongodb://127.0.0.1:" + serverAddress.getPort();
         log.info("In-memory MongoDB started at {}", localUri);
         
