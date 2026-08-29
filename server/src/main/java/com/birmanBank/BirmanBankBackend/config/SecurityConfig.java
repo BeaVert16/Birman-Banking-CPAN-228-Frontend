@@ -52,7 +52,7 @@ public class SecurityConfig {
                 // disable session management
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(withDefaults());
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
