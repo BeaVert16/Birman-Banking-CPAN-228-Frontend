@@ -1,7 +1,6 @@
 services:
   - type: web
     name: birman-banking-api
-    name: birman-banking-api
     env: docker
     plan: free
     autoDeploy: true
@@ -25,6 +24,5 @@ services:
       - key: VITE_API_URL
         fromService:
           type: web
-          name: birman-banking-api
           name: birman-banking-api
           envVarKey: RENDER_EXTERNAL_URL
